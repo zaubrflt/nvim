@@ -72,6 +72,29 @@ return {
       servers = {
         -- pyright will be automatically installed with mason and loaded with lspconfig
         pyright = {},
+        clangd = {
+          cmd = { "/usr/bin/clangd", "--background-index", "--clang-tidy" },
+          filetypes = { "c", "cpp", "objc", "objcpp" },
+          root_dir = function(fname)
+            local util = require("lspconfig.util")
+
+            -- 1. 优先查找 project/build/compile_commands.json
+            local build_dir = util.root_pattern("build/compile_commands.json")(fname)
+            if build_dir then
+              -- 返回 build 的上一级目录 (即 project)
+              return vim.fn.fnamemodify(build_dir, ":h")
+            end
+
+            -- 2. 再查找顶层 compile_commands.json
+            local top_dir = util.root_pattern("compile_commands.json")(fname)
+            if top_dir then
+              return top_dir
+            end
+
+            -- 3. fallback 到 .git 或当前工作目录
+            return util.root_pattern(".git")(fname) or vim.loop.cwd()
+          end,
+        },
       },
     },
   },
@@ -121,6 +144,8 @@ return {
     opts = {
       ensure_installed = {
         "bash",
+        "c",
+        "cpp",
         "html",
         "javascript",
         "json",
@@ -191,6 +216,8 @@ return {
         "shellcheck",
         "shfmt",
         "flake8",
+        "clagnd",
+        "clang-format",
       },
     },
   },
