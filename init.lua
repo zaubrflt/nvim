@@ -9,3 +9,5 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.colorcolumn = "80"
   end,
 })
+
+vim.o.shell = "/bin/zsh"
