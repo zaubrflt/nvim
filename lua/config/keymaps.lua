@@ -10,3 +10,14 @@ vim.keymap.set("n", "<leader>th", function()
   print("Inlay hints " .. (not enabled and "enabled" or "disabled"))
 end, { desc = "Toggle Inlay Hints" })
 
+vim.keymap.set("n", "<leader>td", function()
+  local config = vim.diagnostic.config()
+  local new_state = not config.virtual_text
+  vim.diagnostic.config({
+    virtual_text = new_state,
+    signs = new_state,
+    underline = new_state,
+  })
+  vim.notify("Diagnostics " .. (new_state and "enabled" or "disabled"))
+end, { desc = "Toggle diagnostics" })
+
