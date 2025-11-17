@@ -8,15 +8,28 @@ return {
       require("nordic").setup({
         -- ---------- 调色板回调 ----------
         on_palette = function(palette)
-          -- 你可以在这里自定义颜色，例如：
-          -- palette.red = "#ff6b6b"
         end,
         after_palette = function(palette)
-          -- 扩展色板也可以继续修改
         end,
+
+        -- ---------- 重点：增强符号颜色 ----------
         on_highlight = function(highlights, palette)
-          -- 可以在这里覆盖 highlight 组，例如：
-          -- highlights.LspInlayHint = { fg = palette.gray5 }
+          -- 手动增强符号颜色：分号、逗号、冒号、括号、运算符等
+          -- local strong = palette.white0 or "#ECEFF4"
+          local strong = palette.cyan.base or palette.cyan.bright
+
+          -- 如果想稍微柔和一点，也可以用：
+          -- local strong = palette.snowfall or palette.gray2
+
+          -- Neovim syntax groups
+          highlights.Delimiter = { fg = strong }      -- , ; : ( ) { }
+          highlights.Operator = { fg = strong }       -- + - * / = < >
+
+          -- Treesitter groups
+          highlights["@punctuation"] = { fg = strong }
+          highlights["@punctuation.delimiter"] = { fg = strong }
+          highlights["@punctuation.bracket"] = { fg = strong }
+          highlights["@punctuation.special"] = { fg = strong }
         end,
 
         -- ---------- 基本样式 ----------
