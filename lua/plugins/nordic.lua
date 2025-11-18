@@ -30,6 +30,13 @@ return {
           highlights["@punctuation.delimiter"] = { fg = strong }
           highlights["@punctuation.bracket"] = { fg = strong }
           highlights["@punctuation.special"] = { fg = strong }
+
+          -- 可视模式选择高亮
+          highlights.Visual = {
+            bg = palette.blue0,      -- 使用 Nord 配色变量
+            fg = palette.white0,
+            bold = false,
+          }
         end,
 
         -- ---------- 基本样式 ----------
