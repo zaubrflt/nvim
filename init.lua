@@ -2,12 +2,10 @@
 require("config.lazy")
 require("config.clang_indent").setup()
 
--- Set the color column at column 80 for C++ related files
+-- Set the color column at column 80 for C-family files
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "cpp", "h", "hpp", "cc" },
+  pattern = { "c", "cpp" },
   callback = function()
     vim.opt_local.colorcolumn = "80"
   end,
 })
-
-vim.o.shell = "/bin/zsh"

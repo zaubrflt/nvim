@@ -5,7 +5,8 @@
 local M = {}
 
 function M.setup()
-  vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile" }, {
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "c", "cpp" },
     callback = function()
       local clang_file = vim.fn.findfile(".clang-format", ".;")
       if clang_file == "" then

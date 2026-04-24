@@ -1,10 +1,8 @@
--- 文件：lua/plugins/nightfox.lua
 return {
-  "EdenEast/nightfox.nvim",
-  lazy = false,         -- 立刻加载（颜色主题一般不 lazy）
-  priority = 1000,      -- 让主题最先加载
-  config = function()
-    require("nightfox").setup({
+  {
+    "EdenEast/nightfox.nvim",
+    lazy = true,
+    opts = {
       options = {
         compile_path = vim.fn.stdpath("cache") .. "/nightfox",
         compile_file_suffix = "_compiled",
@@ -43,10 +41,6 @@ return {
       palettes = {},
       specs = {},
       groups = {},
-    })
-
-    -- 加载主题
-    -- vim.cmd("colorscheme nightfox")
-  end,
+    },
+  },
 }
-
