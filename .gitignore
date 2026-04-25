@@ -6,3 +6,6 @@ debug
 foo.*
 *.log
 data
+# 忽略 AI 助手配置文件
+AGENT.md
+.cursorrules
