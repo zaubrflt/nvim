@@ -30,6 +30,9 @@ wk.add({
   { '<leader>fg', group = 'Find: git'             }, -- nested under <leader>f
   { '<leader>g',  group = 'Git'                   },
   { '<leader>r',  group = 'Refactor'              },
+  { '<leader>x',  group = 'Trouble'               },
+  { '<leader>S',  group = 'Session'               },
+  { '<leader>t',  group = 'Terminal'              },
   -- Non-leader prefixes used by mini.surround.
   { 'gs', group = '+surround', mode = { 'n', 'x' } },
 })

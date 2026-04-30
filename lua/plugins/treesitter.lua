@@ -87,3 +87,78 @@ vim.api.nvim_create_autocmd('FileType', {
     end
   end,
 })
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- nvim-treesitter-textobjects (main branch tracks nvim-treesitter `main`).
+-- Provides @function.inner / @class.outer / @parameter.inner etc., which we
+-- then bind manually since the new API is opt-in per keymap.
+-- ─────────────────────────────────────────────────────────────────────────────
+do
+  local ok_to, to = pcall(require, 'nvim-treesitter-textobjects')
+  if ok_to then
+    -- Preferred way to set up on the new main-branch API.
+    if to.setup then
+      to.setup({ select = { lookahead = true } })
+    end
+  end
+
+  -- Keymaps below resolve at runtime; if textobjects isn't loaded yet they
+  -- still work, just without the TS-aware fall-through.
+  local map = vim.keymap.set
+  local function select(capture)
+    return function()
+      local ok_sel, sel = pcall(require, 'nvim-treesitter-textobjects.select')
+      if ok_sel and sel.select_textobject then
+        sel.select_textobject(capture, 'textobjects')
+      end
+    end
+  end
+  -- Function / class objects (i = inner, a = around).
+  map({ 'x', 'o' }, 'af', select('@function.outer'),  { desc = 'TS: a function' })
+  map({ 'x', 'o' }, 'if', select('@function.inner'),  { desc = 'TS: inner function' })
+  map({ 'x', 'o' }, 'ac', select('@class.outer'),     { desc = 'TS: a class' })
+  map({ 'x', 'o' }, 'ic', select('@class.inner'),     { desc = 'TS: inner class' })
+  map({ 'x', 'o' }, 'aa', select('@parameter.outer'), { desc = 'TS: a parameter' })
+  map({ 'x', 'o' }, 'ia', select('@parameter.inner'), { desc = 'TS: inner parameter' })
+
+  -- Move between textobjects (TS-aware ]m / [m).
+  local function move(direction, capture)
+    return function()
+      local ok_mv, mv = pcall(require, 'nvim-treesitter-textobjects.move')
+      if ok_mv then
+        if direction == 'next_start'  then mv.goto_next_start(capture, 'textobjects')
+        elseif direction == 'next_end'    then mv.goto_next_end(capture, 'textobjects')
+        elseif direction == 'prev_start' then mv.goto_previous_start(capture, 'textobjects')
+        elseif direction == 'prev_end'   then mv.goto_previous_end(capture, 'textobjects')
+        end
+      end
+    end
+  end
+  map({ 'n', 'x', 'o' }, ']m', move('next_start',  '@function.outer'), { desc = 'TS: next function start' })
+  map({ 'n', 'x', 'o' }, ']M', move('next_end',    '@function.outer'), { desc = 'TS: next function end' })
+  map({ 'n', 'x', 'o' }, '[m', move('prev_start',  '@function.outer'), { desc = 'TS: prev function start' })
+  map({ 'n', 'x', 'o' }, '[M', move('prev_end',    '@function.outer'), { desc = 'TS: prev function end' })
+end
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- treesitter-context - sticky header showing the function / class / loop
+-- the cursor is currently inside, useful for long C++ bodies.
+-- ─────────────────────────────────────────────────────────────────────────────
+do
+  local ok_ctx, ctx = pcall(require, 'treesitter-context')
+  if ok_ctx then
+    ctx.setup({
+      enable = true,
+      max_lines = 4,
+      min_window_height = 20,
+      line_numbers = true,
+      multiline_threshold = 1,
+      trim_scope = 'outer',
+      mode = 'cursor',
+      separator = nil,
+      zindex = 20,
+    })
+    vim.keymap.set('n', '[c', function() ctx.go_to_context(vim.v.count1) end,
+      { desc = 'Jump to outer treesitter context' })
+  end
+end

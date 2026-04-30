@@ -10,13 +10,9 @@ map('n', '<leader>Q', '<cmd>qa!<cr>', { desc = 'Force quit all' })
 -- Clear search highlight.
 map('n', '<esc>', '<cmd>nohlsearch<cr>', { desc = 'Clear search highlight' })
 
--- Better window navigation.
-map('n', '<C-h>', '<C-w>h', { desc = 'Window left' })
-map('n', '<C-j>', '<C-w>j', { desc = 'Window down' })
-map('n', '<C-k>', '<C-w>k', { desc = 'Window up' })
-map('n', '<C-l>', '<C-w>l', { desc = 'Window right' })
-
--- Resize windows with arrows.
+-- Window navigation: <C-h/j/k/l> is owned by lua/plugins/splits.lua
+-- (smart-splits) so the same keys traverse tmux / wezterm / kitty panes too.
+-- <C-Up/Down/Left/Right> remain native window resizing.
 map('n', '<C-Up>', '<cmd>resize +2<cr>', { desc = 'Resize up' })
 map('n', '<C-Down>', '<cmd>resize -2<cr>', { desc = 'Resize down' })
 map('n', '<C-Left>', '<cmd>vertical resize -2<cr>', { desc = 'Resize left' })

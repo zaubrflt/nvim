@@ -60,6 +60,34 @@ vim.pack.add({
   -- Code outline / symbol sidebar.
   { src = 'https://github.com/stevearc/aerial.nvim' },
 
+  -- Treesitter add-ons. Both are compatible with nvim-treesitter `main`:
+  -- treesitter-textobjects ships a `main` branch tracking the new API,
+  -- treesitter-context only depends on vim.treesitter (no nvim-treesitter dep).
+  { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects', version = 'main' },
+  { src = 'https://github.com/nvim-treesitter/nvim-treesitter-context' },
+
+  -- Diagnostics / LSP references / quickfix UI.
+  { src = 'https://github.com/folke/trouble.nvim' },
+
+  -- Editing add-ons in the mini.* family (one repo each).
+  { src = 'https://github.com/echasnovski/mini.ai' },
+  { src = 'https://github.com/echasnovski/mini.indentscope' },
+
+  -- Multiplexer-aware split navigation (tmux/wezterm/kitty).
+  { src = 'https://github.com/mrjones2014/smart-splits.nvim' },
+
+  -- TODO/FIXME highlighter and search.
+  { src = 'https://github.com/folke/todo-comments.nvim' },
+
+  -- Session management (named + branch-scoped).
+  { src = 'https://github.com/stevearc/resession.nvim' },
+
+  -- Buffer tabline (visualises <S-h>/<S-l> / <leader>bd).
+  { src = 'https://github.com/akinsho/bufferline.nvim' },
+
+  -- Floating / split terminals managed from inside Neovim.
+  { src = 'https://github.com/akinsho/toggleterm.nvim' },
+
   -- Keymap discoverability popup (LazyVim-style <leader> menu).
   { src = 'https://github.com/folke/which-key.nvim', version = vim.version.range('^3.0.0') },
 })
@@ -79,4 +107,10 @@ require('plugins.statusline')
 require('plugins.editing')
 require('plugins.motion')
 require('plugins.outline')
+require('plugins.trouble')
+require('plugins.splits')
+require('plugins.todo')
+require('plugins.session')
+require('plugins.bufferline')
+require('plugins.terminal')
 require('plugins.whichkey')

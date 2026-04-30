@@ -84,7 +84,7 @@ nvim/
 │   └── plugins/
 │       ├── init.lua                 # vim.pack.add(...) 注册中心
 │       ├── colorscheme.lua          # AlexvZyl/nordic.nvim
-│       ├── treesitter.lua           # nvim-treesitter (main) + FileType autocmd
+│       ├── treesitter.lua           # nvim-treesitter (main) + textobjects + treesitter-context + FileType autocmd
 │       ├── completion.lua           # blink.cmp（friendly-snippets 默认自动识别）
 │       ├── lsp.lua                  # 诊断 UI / capabilities / LspAttach keymap / vim.lsp.enable
 │       ├── format.lua               # conform.nvim（默认关闭保存自动格式化）
@@ -94,9 +94,15 @@ nvim/
 │       ├── filetree.lua             # nvim-tree + nvim-web-devicons
 │       ├── picker.lua               # fzf-lua（依赖系统 fzf 二进制）
 │       ├── statusline.lua           # lualine.nvim
-│       ├── editing.lua              # mini.pairs + mini.surround + guess-indent
+│       ├── editing.lua              # mini.pairs + mini.surround + mini.ai + mini.indentscope + guess-indent
 │       ├── motion.lua               # flash.nvim（s/S 跳转）
 │       ├── outline.lua              # aerial.nvim（<leader>O 切换）
+│       ├── trouble.lua              # trouble.nvim v3（<leader>x* 系列）
+│       ├── splits.lua               # smart-splits.nvim（接管 <C-h/j/k/l>，复用器穿越）
+│       ├── todo.lua                 # todo-comments.nvim
+│       ├── session.lua              # resession.nvim（branch-scoped 会话）
+│       ├── bufferline.lua           # bufferline.nvim
+│       ├── terminal.lua             # toggleterm.nvim（<leader>t* + <C-\>）
 │       └── whichkey.lua             # which-key.nvim（leader 弹窗 + prefix 分组声明）
 └── lsp/
     ├── clangd.lua                   # clangd（含 --clang-tidy）
@@ -126,14 +132,20 @@ init.lua
        ├─ plugins.editing
        ├─ plugins.motion
        ├─ plugins.outline
+       ├─ plugins.trouble
+       ├─ plugins.splits
+       ├─ plugins.todo
+       ├─ plugins.session
+       ├─ plugins.bufferline
+       ├─ plugins.terminal
        └─ plugins.whichkey         ← 最后 require，确保所有 keymap 的 desc 已注册
 ```
 
 ## 当前实现状态
 
 - 全部 12 项需求已落地。
-- **第 1 批扩展已落地**（fzf-lua / lualine / mini.pairs / mini.surround / flash / aerial / guess-indent / friendly-snippets / lazygit），见上面目录结构。新增系统级依赖：`fzf`、`lazygit`（README 已记录）。
-- 主要快捷键已在 `lua/plugins/lsp.lua`、`lua/plugins/dap.lua`、`lua/plugins/git.lua`、`lua/plugins/lazygit.lua`、`lua/plugins/filetree.lua`、`lua/plugins/format.lua`、`lua/plugins/picker.lua`、`lua/plugins/motion.lua`、`lua/plugins/outline.lua`、`lua/core/keymaps.lua` 内 set，并在 [KEYMAPS.md](KEYMAPS.md) 形成完整速查表（README 里只保留 Leader 分组总览 + 链接）。
+- **第 1 / 2 / 3 / 4 批扩展已大部分落地**，仅剩第 4 批的 harpoon、render-markdown 待选。系统级新依赖：`fzf`、`ripgrep`、`lazygit`（README 已记录）。
+- 主要快捷键已在 `lua/plugins/*.lua` 与 `lua/core/keymaps.lua` 内 set，完整速查表见 [KEYMAPS.md](KEYMAPS.md)（README 只保留 Leader 分组总览 + 链接）。
 - 尚未在真实 Linux/Mac 机上跑过；Windows 上结构已就位，但需要装齐系统级依赖（见 README）才能完整启动。
 
 ### 第 1 批落地时的关键决策（后续 agent 不要回滚）
@@ -143,6 +155,18 @@ init.lua
 3. **friendly-snippets 不需要 LuaSnip**：blink.cmp 1.x 内置的 `snippets` source 默认 `friendly_snippets = true`，会自动扫 runtimepath 里 friendly-snippets 的目录。`completion.lua` 不需要改，仅在 `vim.pack.add` 注册即可。
 4. **fzf-lua 接管 `vim.ui.select()`**：在 `picker.lua` 调了 `fzf.register_ui_select()`，这样 `vim.lsp.buf.code_action` 等会走 fzf 弹窗。如果新增插件依赖 `vim.ui.select`，无需额外配置。
 5. **lazygit 在系统二进制不存在时静默跳过**：`lazygit.lua` 顶部 `vim.fn.executable('lazygit') == 0` 时只 `vim.notify` 一条警告并 `return`，不会报错。
+
+### 第 2 / 3 / 4 批落地时的关键决策
+
+6. **smart-splits 接管 `<C-h/j/k/l>`**：`lua/core/keymaps.lua` 里原来的 4 行 `<C-w>h/j/k/l` 已**删除**，改由 `lua/plugins/splits.lua` 重新绑到 `smart-splits.move_cursor_*`。在没有 tmux/wezterm/kitty 等复用器时它会平滑退化为原生 `<C-w>` 行为，所以删旧映射是安全的。**不要恢复那 4 行**，否则会双绑定。
+7. **trouble.nvim 用 v3 API**：`:Trouble {mode} {action}` 风格，不是 v2 的 `:TroubleToggle`。引入新 mode 时记得用 v3 的 `modes = { ... }` 表（而不是顶层 options）。
+8. **treesitter-textobjects 装 `version = 'main'`**：与 nvim-treesitter `main` 分支配套；不要装默认（master）分支，会报 `nvim-treesitter.configs` 不存在。
+9. **treesitter-context 不依赖 nvim-treesitter**：它直接用 `vim.treesitter`，所以与 main 分支天然兼容；setup 后的 `[c` keymap 是它自己提供的 `go_to_context()`。
+10. **resession 自动会话名 = `cwd@branch`**：通过 `git branch --show-current` 获取分支名拼接 cwd 短名，每个 git 分支独立 session。`VimEnter` 仅在 `argc() == 0` 时恢复（用户带文件参数启动时不打扰）。
+11. **bufferline 给 nvim-tree / aerial 留 offset**：`offsets = { ... }` 配置项保证 tabline 不覆盖文件树和大纲侧栏。新增其它侧栏时记得也加进来。
+12. **toggleterm 与 smart-splits 协作**：`TermOpen` autocmd 里用原生 `<C-\><C-n><C-w>h` 等映射跳出终端 buffer；smart-splits 在 normal mode 时接管，自动 fall-through。
+13. **mini.indentscope 在侧栏 / 浮窗禁用**：通过 `FileType` autocmd 给 NvimTree、aerial、trouble、toggleterm、fzf 等 buffer 设 `vim.b.miniindentscope_disable = true`。新增大型侧栏 plugin 时把 filetype 加进来。
+14. **mini.ai 与 treesitter-textobjects 共存**：mini.ai 用启发式 + TS spec 提供 `vif/vac/vio/via/vii` 等"日常文本对象"，treesitter-textobjects 提供 `]m`/`[m` motion 与精准 `af/ic/aa`。两者不冲突，因为 mini.ai 设置在 editing.lua、TS textobjects 在 treesitter.lua，注册的是不同 capture 路径。
 
 ## 编辑约定（agent 修改时要遵守）
 
@@ -238,9 +262,9 @@ init.lua
 ### 落地批次建议（每批 = 一个 commit / PR）
 
 1. ~~**第 1 批（核心生产力）**：fzf-lua + lualine + mini.pairs + mini.surround + flash + **aerial** + **guess-indent** + **friendly-snippets** + lazygit~~ **✅ 已完成**
-2. **第 2 批（编辑增强）**：trouble + mini.ai + **treesitter-textobjects** + todo-comments + treesitter-context + **smart-splits**
-3. **第 3 批（视觉 / 会话）**：mini.indentscope + **resession**（替代 persistence）+ bufferline（可选）
-4. **第 4 批（按需工具）**：harpoon + render-markdown + toggleterm
+2. ~~**第 2 批（编辑增强）**：trouble + mini.ai + **treesitter-textobjects** + todo-comments + treesitter-context + **smart-splits**~~ **✅ 已完成**
+3. ~~**第 3 批（视觉 / 会话）**：mini.indentscope + **resession**（替代 persistence）+ bufferline~~ **✅ 已完成**（bufferline 已纳入而不是"可选"）
+4. **第 4 批（按需工具）**：~~toggleterm~~ ✅ + harpoon + render-markdown
 
 粗体为相较原 LazyVim 计划新增的 AstroNvim 来源插件。
 

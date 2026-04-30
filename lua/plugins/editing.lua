@@ -69,3 +69,64 @@ do
     vim.notify('guess-indent.nvim not installed yet.', vim.log.levels.WARN)
   end
 end
+
+-- mini.ai - extended text objects (vaf = around function, vac = around class,
+-- vai = around indent block, va` = around backticks, …). Pairs nicely with
+-- treesitter-textobjects loaded in plugins/treesitter.lua: that one provides
+-- the TS-precise variants under af/ic/aa, mini.ai provides the ergonomic
+-- everyday ones (`a`/`i` over quotes, brackets, args, indent blocks).
+do
+  local ok, ai = pcall(require, 'mini.ai')
+  if ok then
+    ai.setup({
+      n_lines = 500,
+      custom_textobjects = {
+        -- Brace-matching is already covered by `i{` / `a{` natively; here we
+        -- only register a handful of conveniences that mini.ai authors recommend.
+        o = ai.gen_spec.treesitter({
+          a = { '@block.outer',     '@conditional.outer', '@loop.outer' },
+          i = { '@block.inner',     '@conditional.inner', '@loop.inner' },
+        }),
+        f = ai.gen_spec.treesitter({ a = '@function.outer',  i = '@function.inner'  }),
+        c = ai.gen_spec.treesitter({ a = '@class.outer',     i = '@class.inner'     }),
+        t = { '<([%p%w]-)%f[^<%w][^<>]->.-</%1>', '^<.->().*()</[^/]->$' },  -- HTML-ish tags
+      },
+    })
+  else
+    vim.notify('mini.ai not installed yet.', vim.log.levels.WARN)
+  end
+end
+
+-- mini.indentscope - draw a thin animated line for the indent scope under the
+-- cursor. Disabled in special filetypes; animation off for snappier feedback.
+do
+  local ok, scope = pcall(require, 'mini.indentscope')
+  if ok then
+    scope.setup({
+      symbol = '│',
+      options = { try_as_border = true },
+      draw = {
+        animation = scope.gen_animation.none(),
+      },
+      mappings = {
+        object_scope = 'ii',
+        object_scope_with_border = 'ai',
+        goto_top = '[i',
+        goto_bottom = ']i',
+      },
+    })
+
+    vim.api.nvim_create_autocmd('FileType', {
+      group = vim.api.nvim_create_augroup('user_indentscope_disable', { clear = true }),
+      pattern = {
+        'help', 'lazy', 'mason', 'man', 'markdown', 'NvimTree', 'aerial',
+        'trouble', 'toggleterm', 'lazygit', 'fzf', 'TelescopePrompt',
+        'dapui_scopes', 'dapui_breakpoints', 'dapui_stacks', 'dapui_watches',
+        'dapui_console', 'dap-repl',
+      },
+      callback = function() vim.b.miniindentscope_disable = true end,
+    })
+  else
+    vim.notify('mini.indentscope not installed yet.', vim.log.levels.WARN)
+  end
+end

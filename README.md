@@ -1,6 +1,6 @@
 # Neovim 0.12 配置
 
-一份模块化、跨平台（Linux / macOS / Windows）的 Neovim 配置，使用 Neovim 0.12 内置的 `vim.pack` 插件管理器。聚焦于 C++ 与 Rust 的 LSP / 调试 / 格式化 / 静态分析体验，搭配 Treesitter 高亮、`blink.cmp` 补全、Git 集成与文件树，以及一组日常生产力插件（fzf-lua / lualine / aerial / flash / mini.* / lazygit / friendly-snippets / guess-indent）。
+一份模块化、跨平台（Linux / macOS / Windows）的 Neovim 配置，使用 Neovim 0.12 内置的 `vim.pack` 插件管理器。聚焦于 C++ 与 Rust 的 LSP / 调试 / 格式化 / 静态分析体验，搭配 Treesitter 高亮、`blink.cmp` 补全、Git 集成与文件树，以及一组日常生产力插件（fzf-lua / lualine / bufferline / aerial / trouble / flash / mini.* / smart-splits / toggleterm / resession / lazygit / friendly-snippets / guess-indent / todo-comments）。
 
 > 主要在 Linux / macOS 使用，Windows 也已适配。
 
@@ -17,7 +17,7 @@ nvim/
 │   └── plugins/
 │       ├── init.lua            # vim.pack.add 注册中心
 │       ├── colorscheme.lua     # AlexvZyl/nordic.nvim
-│       ├── treesitter.lua      # nvim-treesitter (main 分支)
+│       ├── treesitter.lua      # nvim-treesitter (main) + textobjects + context
 │       ├── completion.lua      # blink.cmp（friendly-snippets 自动识别）
 │       ├── lsp.lua             # 通用 LSP 设置 + LspAttach keymaps
 │       ├── format.lua          # conform.nvim（默认不在保存时自动格式化）
@@ -27,9 +27,15 @@ nvim/
 │       ├── filetree.lua        # nvim-tree.lua
 │       ├── picker.lua          # fzf-lua（依赖系统 fzf）
 │       ├── statusline.lua      # lualine.nvim
-│       ├── editing.lua         # mini.pairs + mini.surround + guess-indent
+│       ├── editing.lua         # mini.pairs + mini.surround + mini.ai + mini.indentscope + guess-indent
 │       ├── motion.lua          # flash.nvim（s / S 跳转）
 │       ├── outline.lua         # aerial.nvim（<leader>O 切换）
+│       ├── trouble.lua         # trouble.nvim v3（<leader>x*）
+│       ├── splits.lua          # smart-splits（<C-h/j/k/l> 接管）
+│       ├── todo.lua            # todo-comments
+│       ├── session.lua         # resession（branch-scoped 会话）
+│       ├── bufferline.lua      # bufferline.nvim
+│       ├── terminal.lua        # toggleterm.nvim
 │       └── whichkey.lua        # which-key.nvim（leader 快捷键导航弹窗）
 ├── lsp/
 │   ├── clangd.lua              # clangd（启用 clang-tidy）
@@ -181,15 +187,20 @@ nvim
 
 | 前缀 | 含义 | 文档章节 |
 | --- | --- | --- |
-| `<leader>b` | Buffer | [通用 / 窗口](KEYMAPS.md#通用--窗口) |
+| `<leader>b` | Buffer / Bufferline | [Bufferline](KEYMAPS.md#bufferlineakinshobufferlinenvim) / [通用 / 窗口](KEYMAPS.md#通用--窗口) |
 | `<leader>c` | Code / Diagnostics | [LSP](KEYMAPS.md#lspbuffer-级) / [诊断](KEYMAPS.md#诊断全局) |
 | `<leader>d` | Debug | [调试](KEYMAPS.md#调试nvim-dap) |
 | `<leader>f` | File / Find / Format | [模糊查找](KEYMAPS.md#模糊查找fzf-lua) / [文件树](KEYMAPS.md#文件树nvim-tree) / [格式化](KEYMAPS.md#代码格式化conformnvim) |
 | `<leader>g` | Git | [Git](KEYMAPS.md#gitgitsignsnvim) / [Lazygit](KEYMAPS.md#lazygitkdheepaklazygitnvim) |
 | `<leader>r` | Refactor | [LSP](KEYMAPS.md#lspbuffer-级) |
+| `<leader>x` | Trouble | [Trouble](KEYMAPS.md#troubletroublenvim) / [TODO](KEYMAPS.md#todo-注释todo-commentsnvim) |
+| `<leader>S` | Session | [会话](KEYMAPS.md#会话resessionnvim) |
+| `<leader>t` | Terminal | [终端](KEYMAPS.md#终端toggletermnvim) |
 | `<leader>O` | Outline (单键 toggle) | [aerial](KEYMAPS.md#代码大纲aerialnvim) |
+| `<C-h/j/k/l>` | smart-splits（含复用器穿越） | [分屏导航](KEYMAPS.md#分屏导航smart-splits) |
 | `s` / `S` | Flash 跳转 | [跳转动作](KEYMAPS.md#跳转动作flashnvim) |
-| `gs*` | mini.surround | [编辑增强](KEYMAPS.md#编辑增强minipairs--minisurround--guess-indent) |
+| `gs*` | mini.surround | [编辑增强](KEYMAPS.md#编辑增强minipairs--minisurround--miniai--miniindentscope--guess-indent) |
+| `af` / `if` / `]m` 等 | TS 文本对象 | [Treesitter 文本对象](KEYMAPS.md#treesitter-文本对象--上下文) |
 
 ## 查看日志 / 排错
 
@@ -290,9 +301,14 @@ clangd / rust-analyzer 自己的 stderr 会汇聚到 LSP 日志。如果 server 
 
 ## 后续可扩展项（未默认开启）
 
-详细规划见 [`AGENTS.md`](AGENTS.md) 的「未来扩展项」一节。第 1 批（fzf-lua / lualine / mini.pairs / mini.surround / flash / aerial / guess-indent / friendly-snippets / lazygit）**已落地**，下面是后续批次的概览：
+详细规划见 [`AGENTS.md`](AGENTS.md) 的「未来扩展项」一节。已经完成：
 
-- **第 2 批（编辑增强）**：trouble.nvim（诊断列表）+ mini.ai + treesitter-textobjects + todo-comments + treesitter-context + smart-splits
-- **第 3 批（视觉 / 会话）**：mini.indentscope + resession.nvim（branch-scoped 会话）+ bufferline.nvim（可选）
-- **第 4 批（按需工具）**：harpoon v2 + render-markdown + toggleterm
+- ✅ **第 1 批（核心生产力）**：fzf-lua + lualine + mini.pairs + mini.surround + flash + aerial + guess-indent + friendly-snippets + lazygit
+- ✅ **第 2 批（编辑增强）**：trouble + mini.ai + treesitter-textobjects + todo-comments + treesitter-context + smart-splits
+- ✅ **第 3 批（视觉 / 会话）**（部分）：mini.indentscope + resession + bufferline
+- ✅ **第 4 批（按需工具）**（部分）：toggleterm
+
+剩余未落地：
+
+- 第 4 批：`ThePrimeagen/harpoon` v2（4–5 个项目内固定文件直跳）+ `MeanderingProgrammer/render-markdown.nvim`（buffer 内 markdown 渲染）
 - 注释：Neovim 0.10+ 已内置 `gc` / `gcc`，无需插件
