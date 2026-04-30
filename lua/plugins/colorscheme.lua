@@ -7,8 +7,26 @@ if not ok then
 end
 
 nordic.setup({
+  -- Punctuation / operators in cyan to make them pop in dense C++/Rust source,
+  -- and a calmer Visual selection (blue0 bg / white0 fg, no bold).
+  on_highlight = function(highlights, palette)
+    local strong = palette.cyan.base or palette.cyan.bright
+
+    highlights.Delimiter              = { fg = strong }
+    highlights.Operator               = { fg = strong }
+    highlights['@punctuation']        = { fg = strong }
+    highlights['@punctuation.delimiter'] = { fg = strong }
+    highlights['@punctuation.bracket']   = { fg = strong }
+    highlights['@punctuation.special']   = { fg = strong }
+    highlights.Visual = {
+      bg = palette.blue0,
+      fg = palette.white0,
+      bold = false,
+    }
+  end,
+
   bold_keywords = false,
-  italic_comments = true,
+  italic_comments = false,
   transparent = {
     bg = false,
     float = false,
@@ -24,9 +42,6 @@ nordic.setup({
   },
   noice = {
     style = 'classic',
-  },
-  telescope = {
-    style = 'flat',
   },
   leap = {
     dim_backdrop = false,
