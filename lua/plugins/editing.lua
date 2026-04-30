@@ -41,11 +41,7 @@ do
       n_lines = 200,
       search_method = 'cover_or_next',
     })
-
-    -- Light desc registrations so which-key shows readable names.
-    local map = vim.keymap.set
-    map('n', 'gs', '<nop>',                   { desc = '+surround' })
-    map('x', 'gs', '<nop>',                   { desc = '+surround' })
+    -- mini.surround registers `gs` as a group itself; no extra <nop> needed.
   else
     vim.notify('mini.surround not installed yet.', vim.log.levels.WARN)
   end

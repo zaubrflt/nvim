@@ -76,6 +76,16 @@ opt.foldlevelstart = 99                                  -- 打开新文件时�
 opt.foldenable     = true                                -- 启用折叠功能本身
 
 -- ─────────────────────────────────────────────────────────────────────────────
+-- 禁用未使用的语言 provider，去掉 :checkhealth 里的 Perl/Ruby/Node/Python
+-- 噪音警告。这些 provider 仅在写对应语言的 :perl/:ruby/:py 命令或
+-- 远程插件时才需要，本仓库的所有插件都用纯 Lua/VimScript 实现。
+-- ─────────────────────────────────────────────────────────────────────────────
+vim.g.loaded_perl_provider   = 0
+vim.g.loaded_ruby_provider   = 0
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_node_provider   = 0
+
+-- ─────────────────────────────────────────────────────────────────────────────
 -- Windows 平台：若装有 PowerShell 7+ (pwsh) 则用作 :! / :terminal 的 shell。
 -- 否则保留默认 cmd.exe，避免在没有 pwsh 的环境下出错。
 -- ─────────────────────────────────────────────────────────────────────────────
