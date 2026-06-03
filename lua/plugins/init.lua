@@ -57,6 +57,9 @@ vim.pack.add({
   -- Treesitter-aware jump motions.
   { src = 'https://github.com/folke/flash.nvim' },
 
+  -- Smooth scrolling for page / half-page movement.
+  { src = 'https://github.com/karb94/neoscroll.nvim' },
+
   -- Code outline / symbol sidebar.
   { src = 'https://github.com/stevearc/aerial.nvim' },
 
@@ -105,6 +108,7 @@ require('plugins.filetree')
 require('plugins.picker')
 require('plugins.statusline')
 require('plugins.editing')
+require('plugins.scroll')
 require('plugins.motion')
 require('plugins.outline')
 require('plugins.trouble')

@@ -1,6 +1,6 @@
 # Neovim 0.12 配置
 
-一份模块化、跨平台（Linux / macOS / Windows）的 Neovim 配置，使用 Neovim 0.12 内置的 `vim.pack` 插件管理器。聚焦于 C++ 与 Rust 的 LSP / 调试 / 格式化 / 静态分析体验，搭配 Treesitter 高亮、`blink.cmp` 补全、Git 集成与文件树，以及一组日常生产力插件（fzf-lua / lualine / bufferline / aerial / trouble / flash / mini.* / smart-splits / toggleterm / resession / lazygit / friendly-snippets / guess-indent / todo-comments）。
+一份模块化、跨平台（Linux / macOS / Windows）的 Neovim 配置，使用 Neovim 0.12 内置的 `vim.pack` 插件管理器。聚焦于 C++ 与 Rust 的 LSP / 调试 / 格式化 / 静态分析体验，搭配 Treesitter 高亮、`blink.cmp` 补全、Git 集成与文件树，以及一组日常生产力插件（fzf-lua / lualine / bufferline / aerial / trouble / flash / neoscroll / mini.* / smart-splits / toggleterm / resession / lazygit / friendly-snippets / guess-indent / todo-comments）。
 
 > 主要在 Linux / macOS 使用，Windows 也已适配。
 
@@ -28,6 +28,7 @@ nvim/
 │       ├── picker.lua          # fzf-lua（依赖系统 fzf）
 │       ├── statusline.lua      # lualine.nvim
 │       ├── editing.lua         # mini.pairs + mini.surround + mini.ai + mini.indentscope + guess-indent
+│       ├── scroll.lua          # neoscroll.nvim（<C-f>/<C-b>/<C-d>/<C-u> 平滑滚动）
 │       ├── motion.lua          # flash.nvim（s / S 跳转）
 │       ├── outline.lua         # aerial.nvim（<leader>O 切换）
 │       ├── trouble.lua         # trouble.nvim v3（<leader>x*）
@@ -305,8 +306,9 @@ clangd / rust-analyzer 自己的 stderr 会汇聚到 LSP 日志。如果 server 
 
 - ✅ **第 1 批（核心生产力）**：fzf-lua + lualine + mini.pairs + mini.surround + flash + aerial + guess-indent + friendly-snippets + lazygit
 - ✅ **第 2 批（编辑增强）**：trouble + mini.ai + treesitter-textobjects + todo-comments + treesitter-context + smart-splits
-- ✅ **第 3 批（视觉 / 会话）**（部分）：mini.indentscope + resession + bufferline
+- ✅ **第 3 批（视觉 / 会话）**：mini.indentscope + resession + bufferline
 - ✅ **第 4 批（按需工具）**（部分）：toggleterm
+- ✅ **体验增强**：neoscroll.nvim（`<C-f>/<C-b>/<C-d>/<C-u>` 平滑滚动）
 
 剩余未落地：
 

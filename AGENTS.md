@@ -46,6 +46,7 @@
 | Git | `lewis6991/gitsigns.nvim` | hunk 导航 / stage / blame 一体化 |
 | 文件树 | `nvim-tree/nvim-tree.lua` | 经典侧栏，跨平台稳定；同时禁用 netrw |
 | 主题 | `AlexvZyl/nordic.nvim` | 用户指定 |
+| 平滑滚动 | `karb94/neoscroll.nvim` | 单功能插件；实现 `<C-f>/<C-b>/<C-d>/<C-u>` 翻页动画，避免引入 `snacks.nvim` |
 | 快捷键导航 | `folke/which-key.nvim`（^3.0.0） | 用户要求 LazyVim 风格 leader 弹窗；所有 keymap 已带 `desc=`，分组只需在 `whichkey.lua` 顶层声明 |
 | Leader | `<Space>` |  |
 
@@ -67,6 +68,7 @@
 6. **blink.cmp 与 LSP 集成**：在 `lua/plugins/lsp.lua` 已通过 `blink.get_lsp_capabilities()` 注入 capabilities，agent 修改时不要忘记保留这步。
 7. **格式化"默认关闭"的实现方式**：通过 `vim.g.user_format_on_save = false` 与 `BufWritePre` autocmd 实现可运行时切换；**不要**改为 `conform.setup({ format_on_save = ... })`，因为那会丢掉运行时切换能力。
 8. **which-key 的分组声明**：所有 keymap 用 `{ desc = '...' }` 写描述就够了，which-key 自动读取。**新增一个 `<leader>X` 前缀**（X 是字母）时，去 `lua/plugins/whichkey.lua` 的 `wk.add({...})` 里加一行 `{ '<leader>X', group = 'XxxName' }`，否则弹窗里那个分组没标题。
+9. **平滑滚动**：`<C-f>/<C-b>/<C-d>/<C-u>` 由 `lua/plugins/scroll.lua` 的 neoscroll 接管；不要在 `lua/core/keymaps.lua` 里重复绑定这些键。
 
 ## 目录结构（实现完成）
 
@@ -95,6 +97,7 @@ nvim/
 │       ├── picker.lua               # fzf-lua（依赖系统 fzf 二进制）
 │       ├── statusline.lua           # lualine.nvim
 │       ├── editing.lua              # mini.pairs + mini.surround + mini.ai + mini.indentscope + guess-indent
+│       ├── scroll.lua               # neoscroll.nvim（<C-f>/<C-b>/<C-d>/<C-u> 平滑滚动）
 │       ├── motion.lua               # flash.nvim（s/S 跳转）
 │       ├── outline.lua              # aerial.nvim（<leader>O 切换）
 │       ├── trouble.lua              # trouble.nvim v3（<leader>x* 系列）
@@ -130,6 +133,7 @@ init.lua
        ├─ plugins.picker
        ├─ plugins.statusline
        ├─ plugins.editing
+       ├─ plugins.scroll
        ├─ plugins.motion
        ├─ plugins.outline
        ├─ plugins.trouble
@@ -144,7 +148,7 @@ init.lua
 ## 当前实现状态
 
 - 全部 12 项需求已落地。
-- **第 1 / 2 / 3 / 4 批扩展已大部分落地**，仅剩第 4 批的 harpoon、render-markdown 待选。系统级新依赖：`fzf`、`ripgrep`、`lazygit`（README 已记录）。
+- **第 1 / 2 / 3 / 4 批扩展已大部分落地**，另已加入 neoscroll 平滑滚动；仅剩第 4 批的 harpoon、render-markdown 待选。系统级新依赖：`fzf`、`ripgrep`、`lazygit`（README 已记录）。
 - 主要快捷键已在 `lua/plugins/*.lua` 与 `lua/core/keymaps.lua` 内 set，完整速查表见 [KEYMAPS.md](KEYMAPS.md)（README 只保留 Leader 分组总览 + 链接）。
 - 尚未在真实 Linux/Mac 机上跑过；Windows 上结构已就位，但需要装齐系统级依赖（见 README）才能完整启动。
 

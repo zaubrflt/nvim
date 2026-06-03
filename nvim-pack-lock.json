@@ -61,6 +61,10 @@
       "rev": "2715e04bea3ec9244f15b421dc5b18c0fe326210",
       "src": "https://github.com/echasnovski/mini.surround"
     },
+    "neoscroll.nvim": {
+      "rev": "c8d29979cb0cb3a2437a8e0ae683fd82f340d3b8",
+      "src": "https://github.com/karb94/neoscroll.nvim"
+    },
     "nordic.nvim": {
       "rev": "c38a210bdaf79e74823d88c741029cac7f6b4481",
       "src": "https://github.com/AlexvZyl/nordic.nvim"

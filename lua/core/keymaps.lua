@@ -31,9 +31,7 @@ map('v', '>', '>gv', { desc = 'Indent right' })
 map('v', 'J', ":m '>+1<cr>gv=gv", { desc = 'Move selection down' })
 map('v', 'K', ":m '<-2<cr>gv=gv", { desc = 'Move selection up' })
 
--- Center cursor on half-page jumps & search next.
-map('n', '<C-d>', '<C-d>zz')
-map('n', '<C-u>', '<C-u>zz')
+-- Center cursor on search next.
 map('n', 'n', 'nzzzv')
 map('n', 'N', 'Nzzzv')
 
