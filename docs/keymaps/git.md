@@ -4,9 +4,10 @@
 
 ## Gitsigns
 
-gitsigns 在 sign column 中显示当前 buffer 相对 Git 索引的变化，并提供
-hunk 级操作。当前字符为新增 `+`、修改 `~`、删除 `_`、顶部删除 `‾`、
-未跟踪 `┆`；“修改后删除”仍使用 `~`。
+gitsigns 在 sign column 中以彩色竖线显示当前 buffer 相对 Git 索引的变化，
+并提供 hunk 级操作。新增 / 修改 / 未跟踪使用 `▎`，删除与顶部删除使用
+``；颜色由 Nordic 的 `GitSignsAdd`（绿）、`GitSignsChange`（黄）、
+`GitSignsDelete`（红）区分。
 
 | 快捷键 | 模式 | 说明 |
 | --- | --- | --- |
@@ -22,9 +23,6 @@ hunk 级操作。当前字符为新增 `+`、修改 `~`、删除 `_`、顶部删
 | `<leader>gd` | normal | 与索引 diff |
 | `<leader>gD` | normal | 与上一次 commit diff |
 | `ih` | visual / operator-pending | 选择一个 hunk |
-
-VSCode 风格彩色竖线标记仍是计划项，见
-[编辑体验改进](../improvements/editor-experience.md#git-变更标记)。
 
 ## Lazygit
 

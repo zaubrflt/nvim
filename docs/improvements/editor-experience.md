@@ -51,27 +51,6 @@ snacks.nvim：
 - buffer-local 与 global option 的作用域明确。
 - 保存格式化在重启后仍恢复为关闭。
 
-## Git 变更标记
-
-### 缺口
-
-gitsigns 当前以 `+`、`~`、`_` 区分新增、修改和删除。用户希望接近 VSCode 的
-左侧彩色竖线：新增绿色、修改黄色、删除红色。
-
-### 建议
-
-- 调整 `lua/plugins/git.lua` 的 sign 字符，使 add/change/delete 使用一致的
-  竖线或与删除位置匹配的细线字符。
-- 复用 `GitSignsAdd`、`GitSignsChange`、`GitSignsDelete` highlight group，
-  由 Nordic 配色提供颜色；仅在主题确实缺失时补自定义 highlight。
-- 保持 hunk 导航、stage/reset 和 blame 行为不变。
-
-### 验收
-
-- 新增、修改、删除在 sign column 中有稳定且可区分的绿/黄/红提示。
-- untracked、topdelete 和 changedelete 仍有合理显示。
-- 不启用整行高亮或 word diff，避免视觉噪音。
-
 ## C-k 映射冲突
 
 ### 缺口

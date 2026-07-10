@@ -19,7 +19,7 @@
 - clangd `--clang-tidy` 与 rust-analyzer clippy 提供静态分析。
 - Treesitter `main` 分支提供高亮、折叠、缩进、文本对象和上下文。
 - Nordic 是默认主题。
-- gitsigns 与 lazygit 提供 buffer 级和仓库级 Git 能力。
+- gitsigns 与 lazygit 提供 buffer 级和仓库级 Git 能力；gitsigns 使用彩色竖线区分新增 / 修改 / 删除。
 - nvim-tree 提供文件树。
 - 保存格式化默认关闭，支持手动格式化和会话内显式切换。
 - 配置按 core、plugin 和 LSP server 模块拆分。
@@ -54,7 +54,6 @@
 
 - [Markdown buffer 内渲染](improvements/editor-experience.md#markdown-buffer-内渲染)
 - [原生运行时 toggle 层](improvements/editor-experience.md#原生-toggle-层)
-- [Git 变更使用彩色竖线标记](improvements/editor-experience.md#git-变更标记)
 - [解决 LSP `<C-k>` 与向上切换窗口的冲突](improvements/editor-experience.md#c-k-映射冲突)
 - [清理孤立的 `.neoconf.json`](improvements/quality.md#仓库清理)
 
