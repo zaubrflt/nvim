@@ -88,8 +88,7 @@ init.lua
 
 ### 基础配置
 
-- `lua/core/options.lua`：缩进、显示、搜索、窗口、持久化、补全菜单、折叠和
-  Windows PowerShell 适配。
+- `lua/core/options.lua`：缩进、显示、搜索、窗口、持久化、补全菜单和折叠。
 - `lua/core/keymaps.lua`：不依赖插件的快捷键。
 - `lua/core/autocmds.lua`：yank 高亮、保存前创建目录、恢复光标位置，以及
   特殊窗口的 `q` 关闭行为。
@@ -128,8 +127,7 @@ init.lua
 - `nvim-treesitter.configs` 模块已不存在。
 - parser 管理由 `require('nvim-treesitter').install()` / `update()` 完成。
 - 高亮、折叠和缩进通过 `FileType` autocmd 显式启用。
-- parser 不在启动时自动安装。首次安装用 `:TsEnsure`，更新用 `:TsUpdate`，
-  避免 Windows 上临时目录与 Defender/索引器竞争导致 `EPERM`。
+- parser 不在启动时自动安装。首次安装用 `:TsEnsure`，更新用 `:TsUpdate`。
 - `treesitter-context` 直接使用 `vim.treesitter`，不依赖旧配置层。
 
 ### 格式化
@@ -149,10 +147,6 @@ init.lua
 
 `nvim-dap`、`nvim-dap-ui` 和 `nvim-dap-virtual-text` 共用 `codelldb`
 调试 C、C++ 和 Rust。当前启动配置允许手动选择可执行文件，也支持附加进程。
-
-Windows 使用 `codelldb.cmd` 或 `codelldb.exe` 时，adapter 的
-`detached = false`，避免留下游离命令行窗口。其他平台允许 detached
-adapter 进程。
 
 ### 导航与界面
 
@@ -176,12 +170,10 @@ adapter 进程。
 - 只有无文件参数启动时，`VimEnter` 才自动恢复。
 - 文件树、终端、DAP UI 等临时 buffer 不写入会话。
 
-## 跨平台约定
+## 路径与工具约定
 
 - 路径优先使用 `vim.fs.joinpath()` 和 `vim.fn.stdpath()`。
-- Windows 若存在 PowerShell 7，则配置为 UTF-8 shell；否则保留默认 shell。
 - 系统工具从 `PATH` 发现，不硬编码个人机器路径。
-- codelldb 在 Windows 上需要把发行包的 `extension/adapter/` 加入 `PATH`。
 
 ## 关键交互约定
 

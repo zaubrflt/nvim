@@ -1,7 +1,7 @@
 # Neovim 0.12 配置
 
-一份面向 C++ 与 Rust、模块化且跨平台的 Neovim 配置。主要用于 Linux /
-macOS，同时兼容 Windows；插件由 Neovim 0.12 内置 `vim.pack` 管理。
+一份面向 C++ 与 Rust、模块化的 Neovim 配置，支持 Linux / macOS；插件由
+Neovim 0.12 内置 `vim.pack` 管理。
 
 核心能力包括：
 
@@ -18,17 +18,8 @@ macOS，同时兼容 Windows；插件由 Neovim 0.12 内置 `vim.pack` 管理。
 需要 **Neovim ≥ 0.12**、Git，以及所用语言对应的工具链。完整依赖与各平台
 安装命令见 [安装与依赖](docs/SETUP.md)。
 
-Linux / macOS：
-
 ```bash
 git clone <this-repo> ~/.config/nvim
-nvim
-```
-
-Windows：
-
-```powershell
-git clone <this-repo> $env:LOCALAPPDATA\nvim
 nvim
 ```
 
@@ -64,5 +55,5 @@ nvim
 
 ## 排查
 
-先执行 `:messages` 与 `:checkhealth`。LSP、Treesitter、DAP、vim.pack 和平台
-相关问题见 [日志与故障排查](docs/TROUBLESHOOTING.md)。
+先执行 `:messages` 与 `:checkhealth`。LSP、Treesitter、DAP、vim.pack 相关
+问题见 [日志与故障排查](docs/TROUBLESHOOTING.md)。

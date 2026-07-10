@@ -1,7 +1,5 @@
 -- nvim-dap + dap-ui + virtual-text. C++ and Rust both run via codelldb.
---
--- Codelldb is expected on $PATH (see README). On Windows the executable is
--- usually `codelldb.cmd` (or `codelldb.exe` inside the extension's adapter dir).
+-- Codelldb is expected on $PATH (see docs/SETUP.md).
 
 local ok_dap, dap = pcall(require, 'dap')
 if not ok_dap then
@@ -67,8 +65,6 @@ dap.adapters.codelldb = {
   executable = {
     command = 'codelldb',
     args = { '--port', '${port}' },
-    -- On Windows, set detached = false to avoid keeping a stray cmd window open.
-    detached = vim.fn.has('win32') == 0,
   },
 }
 

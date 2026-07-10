@@ -17,7 +17,7 @@
 ## 不可破坏的基线
 
 1. 目标版本是 Neovim ≥ 0.12。
-2. 主要支持 Linux / macOS，同时保证 Windows 可启动和可用。
+2. 支持平台为 Linux / macOS。
 3. [原始 0–12 项需求](docs/PROJECT.md#原始需求)必须持续满足。
 4. 保存时自动格式化必须默认关闭。
 5. 新功能按职责拆分，不能把实现堆入 `init.lua`。
@@ -61,13 +61,10 @@
   运行时切换。
 - 不要改成固定的 `conform.setup({ format_on_save = ... })`。
 
-## 跨平台约束
+## 路径与工具约束
 
-- 配置路径使用 `vim.fs.joinpath()` / `vim.fn.stdpath()`，不要硬编码 `/` 或
-  `\`。
+- 配置路径使用 `vim.fs.joinpath()` / `vim.fn.stdpath()`，不要硬编码路径分隔符。
 - 系统工具通过 `PATH` 发现，不写入个人机器绝对路径。
-- Windows codelldb adapter 必须保持 `detached = false`。
-- Windows PowerShell 相关修改必须保持 UTF-8 行为，并在没有 pwsh 时安全退化。
 
 ## 快捷键约束
 

@@ -7,20 +7,16 @@
 这是个人 Neovim 配置仓库，面向 C++ 与 Rust 开发，目标版本为
 **Neovim ≥ 0.12**。
 
-- 主要生产平台：Linux / macOS。
-- 兼容平台：Windows。
-- 配置路径：
-  - Linux / macOS：`~/.config/nvim`
-  - Windows：`%LOCALAPPDATA%\nvim`
+- 支持平台：Linux / macOS。
+- 配置路径：`~/.config/nvim`
 
-配置追求模块边界清晰、依赖可解释、三平台均可启动，不以复刻完整
-Neovim 发行版为目标。
+配置追求模块边界清晰、依赖可解释，不以复刻完整 Neovim 发行版为目标。
 
 ## 原始需求
 
 以下需求是项目基线，后续重构和扩展不得破坏：
 
-0. 主要支持 Linux / macOS，同时兼容 Windows。
+0. 支持 Linux / macOS。
 1. 提供默认代码缩进、空格缩进等基础配置。
 2. 支持 C++（clangd）和 Rust（rust-analyzer）的 LSP，包括补全、跳转、
    悬停与重构。

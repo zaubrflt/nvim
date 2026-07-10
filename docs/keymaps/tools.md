@@ -47,8 +47,6 @@ toggleterm 提供持久的浮窗、水平和垂直终端实例。
 | `<esc>` / `jk` | terminal | 退出 terminal mode 到 normal mode |
 | `<C-h/j/k/l>` | terminal | 退出 terminal mode并移到对应窗口 |
 
-Windows 检测到 PowerShell 7 时会继承 UTF-8 shell 配置。
-
 ## 会话
 
 自动会话名为 `cwd@branch`。退出时保存；只有无文件参数启动 Neovim 时才自动

@@ -10,8 +10,7 @@
 
 ### 项目基线
 
-- Linux/macOS 为主要平台，配置包含 Windows 路径、PowerShell UTF-8 和
-  codelldb adapter 兼容分支。
+- Linux / macOS 为支持平台。
 - 默认四空格缩进，并由 guess-indent 按 buffer 适配已有文件风格。
 - C/C++ 使用 clangd，Rust 使用 rust-analyzer。
 - blink.cmp 提供 LSP、路径、buffer 和 friendly-snippets 补全。
@@ -73,7 +72,5 @@
 
 ## 验证状态
 
-代码中已有 Linux/macOS/Windows 兼容处理，但仓库没有保存可复现的三平台实机
-验证结果。完成某个平台的验证后，应按
-[验证清单](MAINTENANCE.md#验证清单)记录实际结果；不能仅凭存在平台分支就标记
-为“已验证”。
+仓库没有保存可复现的 Linux / macOS 实机验证结果。完成某个平台的验证后，应按
+[验证清单](MAINTENANCE.md#验证清单)记录实际结果。

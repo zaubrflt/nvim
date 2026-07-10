@@ -84,20 +84,3 @@ vim.g.loaded_perl_provider   = 0
 vim.g.loaded_ruby_provider   = 0
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_node_provider   = 0
-
--- ─────────────────────────────────────────────────────────────────────────────
--- Windows 平台：若装有 PowerShell 7+ (pwsh) 则用作 :! / :terminal 的 shell。
--- 否则保留默认 cmd.exe，避免在没有 pwsh 的环境下出错。
--- ─────────────────────────────────────────────────────────────────────────────
-if vim.fn.has('win32') == 1 then
-  if vim.fn.executable('pwsh') == 1 then
-    opt.shell = 'pwsh'
-    -- 关键参数：禁用 logo / profile，以 UTF-8 与控制台交互，避免中文乱码。
-    opt.shellcmdflag =
-      '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
-    opt.shellredir = '2>&1 | %%{ "$_" } | Out-File %s; exit $LastExitCode'
-    opt.shellpipe  = '2>&1 | %%{ "$_" } | Tee-Object %s; exit $LastExitCode'
-    opt.shellquote   = ''
-    opt.shellxquote  = ''
-  end
-end

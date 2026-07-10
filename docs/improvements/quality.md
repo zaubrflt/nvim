@@ -32,7 +32,8 @@ nvim --headless --startuptime startup.log +qa
 
 ### 缺口
 
-项目目标包括三平台兼容，但目前没有自动验证配置能否启动和通过基础语法检查。
+项目目标包括 Linux / macOS 兼容，但目前没有自动验证配置能否启动和通过基础
+语法检查。
 
 ### 建议
 
@@ -45,12 +46,12 @@ nvim --headless --startuptime startup.log +qa
 - 核对 `vim.pack` 注册与锁文件插件集合。
 
 CI 初期不需要安装 clangd、完整 Rust toolchain 或 codelldb；重点是配置加载与
-文档结构。若做多平台矩阵，应使用隔离 HOME，避免 session、shada 和日志权限
-干扰结果。
+文档结构。若做 Linux / macOS 矩阵，应使用隔离 HOME，避免 session、shada 和
+日志权限干扰结果。
 
 ### 验收
 
-- Linux、macOS、Windows job 的验证范围明确。
+- Linux、macOS job 的验证范围明确。
 - 缺少可选系统工具只产生预期警告，不导致配置崩溃。
 - 失败输出能定位到具体 Lua 文件或文档链接。
 

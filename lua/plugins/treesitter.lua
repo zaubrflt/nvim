@@ -18,9 +18,7 @@ local ensure_installed = {
   'query', 'regex', 'diff', 'gitcommit', 'git_rebase',
 }
 
--- Parsers are NOT installed at startup. Each install clones into a temp dir
--- and renames into place, which races with antivirus / Defender on Windows
--- and intermittently fails with EPERM. Users invoke `:TsEnsure` once after
+-- Parsers are NOT installed at startup. Users invoke `:TsEnsure` once after
 -- first launch (and after editing the list above), and `:TsUpdate` when
 -- they want fresher parsers.
 local function installed_parsers()
@@ -28,7 +26,7 @@ local function installed_parsers()
   local parser_dir = vim.fs.joinpath(vim.fn.stdpath('data'), 'site', 'parser')
   if vim.fn.isdirectory(parser_dir) == 0 then return found end
   for name in vim.fs.dir(parser_dir) do
-    local lang = name:match('^(.+)%.so$') or name:match('^(.+)%.dll$')
+    local lang = name:match('^(.+)%.so$')
     if lang then found[lang] = true end
   end
   return found

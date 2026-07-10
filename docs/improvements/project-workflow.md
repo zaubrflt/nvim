@@ -25,7 +25,7 @@ executable 路径。Rust 输入框只把 `target/debug/` 作为默认目录，�
 
 - C/C++ 与 Rust 继续共用 codelldb。
 - 不引入 mason.nvim 或 rustaceanvim。
-- 路径必须使用跨平台 API；Windows 需要兼容 `.exe`。
+- 路径必须使用 `vim.fs.joinpath()` / `vim.fn.stdpath()`。
 - 自动发现失败时保留手动输入回退。
 
 ### 验收
@@ -61,5 +61,5 @@ executable 路径。Rust 输入框只把 `target/debug/` 作为默认目录，�
 
 - 命令在项目根执行，退出码和完整输出可见。
 - 重复运行不会无意创建大量终端实例。
-- Linux、macOS 和 Windows shell quoting 正确。
+- Linux / macOS 上 shell quoting 正确。
 - 不影响现有 `<leader>t` 终端分组。

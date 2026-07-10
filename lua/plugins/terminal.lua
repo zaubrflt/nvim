@@ -1,6 +1,4 @@
 -- toggleterm.nvim - floating / split terminals managed from inside Nvim.
--- On Windows, options.lua already configures pwsh + UTF-8 if available, so
--- toggleterm picks that up automatically via &shell.
 
 local ok, toggleterm = pcall(require, 'toggleterm')
 if not ok then

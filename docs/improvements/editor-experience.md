@@ -132,7 +132,7 @@ Harpoon 适合在少数高频文件间固定跳转，与 fzf-lua 的全量搜索
 
 - 固定列表能按项目持久化。
 - 键位不覆盖 bufferline、LSP 或窗口导航。
-- Linux、macOS 与 Windows 路径均可正常工作。
+- Linux / macOS 路径均可正常工作。
 
 ## vim.ui.input 界面
 
@@ -150,5 +150,5 @@ fzf-lua 已接管 `vim.ui.select()`，但 DAP 条件断点、log point 和命名
 
 ### 验收
 
-- DAP 与 session 输入框可用且跨平台。
+- DAP 与 session 输入框可用。
 - `vim.ui.select()` 不被 dressing 接管。

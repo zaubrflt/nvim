@@ -104,5 +104,4 @@ parser 列表位于 `lua/plugins/treesitter.lua` 的 `ensure_installed`：
 
 ### 平台记录
 
-只有实际执行过验证后，才在 [实现状态](STATUS.md) 中记录平台结果。配置代码中
-存在平台分支不等于已完成该平台实机验证。
+只有实际执行过验证后，才在 [实现状态](STATUS.md) 中记录平台结果。

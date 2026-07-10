@@ -82,39 +82,10 @@ brew install --cask codelldb
 `clangd`、`clang-format` 和 `clang-tidy` 来自 Homebrew LLVM。必要时把
 `$(brew --prefix llvm)/bin` 加入 `PATH`。
 
-### Windows
-
-```powershell
-winget install Git.Git
-winget install LLVM.LLVM
-winget install Rustlang.Rustup
-winget install junegunn.fzf
-winget install BurntSushi.ripgrep.MSVC
-winget install JesseDuffield.lazygit
-rustup component add rust-analyzer rustfmt clippy
-cargo install --locked tree-sitter-cli
-```
-
-从 [codelldb releases](https://github.com/vadimcn/codelldb/releases) 下载
-Windows 发行包，并把 `extension/adapter/` 加入 `PATH`。该目录应包含
-`codelldb.exe` 或 `codelldb.cmd`。
-
-Windows 的系统剪贴板可直接工作。配置检测到 PowerShell 7 时会自动使用
-UTF-8 shell。
-
 ## 安装配置
-
-### Linux / macOS
 
 ```bash
 git clone <this-repo> ~/.config/nvim
-nvim
-```
-
-### Windows
-
-```powershell
-git clone <this-repo> $env:LOCALAPPDATA\nvim
 nvim
 ```
 
@@ -127,8 +98,8 @@ nvim
 :TsEnsure
 ```
 
-parser 安装不放在启动流程中，以避免 Windows 杀毒软件或索引器锁住临时目录。
-以后使用 `:TsUpdate` 更新 parser。
+parser 安装不放在启动流程中，由用户按需执行。以后使用 `:TsUpdate` 更新
+parser。
 
 ## 首次检查
 

@@ -40,8 +40,6 @@
 
 - Linux / macOS：state 通常位于 `~/.local/state/nvim/`，cache 位于
   `~/.cache/nvim/`。
-- Windows：通常位于 `%LOCALAPPDATA%\nvim-data\` 或 Neovim 返回的
-  `stdpath()` 目录。
 
 ## 提高日志详细度
 
@@ -80,20 +78,6 @@
 2. 执行 `:checkhealth nvim-treesitter`。
 3. 打开目标文件，用 `:Inspect` 查看 capture。
 
-### Windows 出现 `EPERM` 或 `Could not rename temp`
-
-Defender、杀毒软件或 Explorer 索引器可能锁住 `%TEMP%\nvim\`：
-
-1. 退出所有 Neovim 实例。
-2. 执行：
-
-   ```powershell
-   Remove-Item -Recurse -Force "$env:TEMP\nvim"
-   ```
-
-3. 重新运行 `:TsEnsure`。
-4. 仍失败时，考虑把 Neovim data 目录加入 Defender 排除项。
-
 ### tree-sitter CLI 版本过旧
 
 `nvim-treesitter` `main` 分支要求 tree-sitter CLI ≥ 0.26.1。发行版仓库版本
@@ -121,7 +105,7 @@ cargo install --locked tree-sitter-cli
 确认同时存在：
 
 - tree-sitter CLI ≥ 0.26.1。
-- C 编译器（Linux/macOS）或 MSVC/zig（Windows）。
+- C 编译器。
 
 详细缺项由 `:checkhealth nvim-treesitter` 给出。
 
@@ -170,8 +154,8 @@ cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
 ### `clangd is not executable`
 
-表示 `clangd` 不在当前 Neovim 进程的 PATH。Windows 使用 winget 安装 LLVM
-后需要重启终端或桌面应用，使新 PATH 生效。
+表示 `clangd` 不在当前 Neovim 进程的 PATH。安装 LLVM 后需要重启终端或
+桌面应用，使新 PATH 生效。
 
 ### rust-analyzer shim 报 `Unknown binary`
 
@@ -188,7 +172,7 @@ rustup component add rust-analyzer rustfmt clippy
 ### codelldb 启动失败
 
 - 先运行 `:lua =vim.fn.exepath('codelldb')`。
-- Windows 把 codelldb 发行包的 `extension/adapter/` 加入 PATH。
+- 确认 `codelldb` 已加入 PATH。
 - 开启 DAP DEBUG 日志，重试后检查 `stdpath('cache')/dap.log`。
 
 当前配置启动 C/C++ 与 Rust 程序时仍可能要求手动输入 executable 路径。
