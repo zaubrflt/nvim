@@ -26,6 +26,8 @@
 
 | 快捷键 | 模式 | 说明 |
 | --- | --- | --- |
+| `<leader>-` | normal | 水平分屏（下方，复用当前 buffer） |
+| `<leader>\|` | normal | 垂直分屏（右侧，复用当前 buffer） |
 | `<C-h>` / `<C-j>` | normal | 移到左 / 下窗口或 pane |
 | `<C-k>` / `<C-l>` | normal | 移到上 / 右窗口或 pane |
 | `<M-h>` / `<M-j>` | normal | 向左 / 下调整分屏大小 |
@@ -35,8 +37,8 @@
 | `<leader><leader>h` / `<leader><leader>j` | normal | 与左 / 下窗口交换 buffer |
 | `<leader><leader>k` / `<leader><leader>l` | normal | 与上 / 右窗口交换 buffer |
 
-当前没有自定义“创建分屏”快捷键，可使用原生命令 `:split` 和 `:vsplit`。
-便捷创建键位列在 [计划状态](../STATUS.md#计划实现)。
+方向由 `splitbelow` / `splitright` 决定。终端分屏仍用
+`<leader>th` / `<leader>tv`。
 
 ## 滚动
 

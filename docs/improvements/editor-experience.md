@@ -51,26 +51,6 @@ snacks.nvim：
 - buffer-local 与 global option 的作用域明确。
 - 保存格式化在重启后仍恢复为关闭。
 
-## 创建分屏快捷键
-
-### 缺口
-
-当前 smart-splits 支持移动、缩放和交换窗口，但创建窗口仍需输入 `:split` /
-`:vsplit`。
-
-### 建议
-
-- `<leader>-`：水平分屏。
-- `<leader>|`：垂直分屏。
-- 继续使用 `splitbelow = true` 与 `splitright = true`。
-- 不新增字母前缀，因此无需额外 which-key group。
-
-### 验收
-
-- 两个映射能创建方向正确的新窗口。
-- 创建后 smart-splits 的导航、缩放和交换仍正常。
-- terminal buffer 与普通文件中的行为有明确约定。
-
 ## Git 变更标记
 
 ### 缺口

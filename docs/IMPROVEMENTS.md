@@ -13,7 +13,6 @@ AstroNvim 为目标。架构边界与明确不采用的方案见
 
 - [Markdown buffer 内渲染](improvements/editor-experience.md#markdown-buffer-内渲染)
 - [原生 toggle 层](improvements/editor-experience.md#原生-toggle-层)
-- [创建分屏快捷键](improvements/editor-experience.md#创建分屏快捷键)
 - [Git 变更标记](improvements/editor-experience.md#git-变更标记)
 - [`<C-k>` 映射冲突](improvements/editor-experience.md#c-k-映射冲突)
 - [仓库清理](improvements/quality.md#仓库清理)

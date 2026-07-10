@@ -30,6 +30,7 @@
 - lualine、bufferline 和 which-key。
 - mini.pairs、mini.surround、mini.ai、mini.indentscope。
 - Flash、neoscroll、Aerial 和 smart-splits。
+- `<leader>-` / `<leader>|` 创建水平与垂直分屏。
 - Trouble 与 todo-comments。
 - toggleterm。
 - resession 命名和 branch-scoped 自动会话。
@@ -53,7 +54,6 @@
 
 - [Markdown buffer 内渲染](improvements/editor-experience.md#markdown-buffer-内渲染)
 - [原生运行时 toggle 层](improvements/editor-experience.md#原生-toggle-层)
-- [便捷创建水平与垂直分屏](improvements/editor-experience.md#创建分屏快捷键)
 - [Git 变更使用彩色竖线标记](improvements/editor-experience.md#git-变更标记)
 - [解决 LSP `<C-k>` 与向上切换窗口的冲突](improvements/editor-experience.md#c-k-映射冲突)
 - [清理孤立的 `.neoconf.json`](improvements/quality.md#仓库清理)
