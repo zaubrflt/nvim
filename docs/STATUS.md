@@ -37,6 +37,8 @@
 - Neovim 原生 `gc` / `gcc` 注释能力已记录在快捷键文档。
 - LSP insert 模式用 `<C-k>`、normal 模式用 `<leader>ck` 显示签名，避免覆盖
   smart-splits 的向上切窗。
+- 原生 UI toggle 层（`<leader>u*`）：relative number、wrap、spell、diagnostics、
+  inlay hints、format-on-save、smooth scroll。
 
 ### 文档
 
@@ -55,7 +57,6 @@
 ### 优先
 
 - [Markdown buffer 内渲染](improvements/editor-experience.md#markdown-buffer-内渲染)
-- [原生运行时 toggle 层](improvements/editor-experience.md#原生-toggle-层)
 - [清理孤立的 `.neoconf.json`](improvements/quality.md#仓库清理)
 
 ### 后续

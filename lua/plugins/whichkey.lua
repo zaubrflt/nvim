@@ -33,6 +33,7 @@ wk.add({
   { '<leader>x',  group = 'Trouble'               },
   { '<leader>S',  group = 'Session'               },
   { '<leader>t',  group = 'Terminal'              },
+  { '<leader>u',  group = 'UI'                    },
   -- Note: mini.surround registers `gs` as a group automatically; do NOT add
   -- it here too or which-key will warn about duplicate mappings.
 })

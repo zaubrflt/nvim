@@ -24,18 +24,29 @@ neoscroll.setup({
 
 local map = vim.keymap.set
 
-map({ 'n', 'x' }, '<C-f>', function()
+-- When <leader>uS disables smooth scroll, fall back to native motions.
+local function scroll(smooth_fn, keys)
+  return function()
+    if vim.g.user_smooth_scroll == false then
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, false, true), 'n', false)
+      return
+    end
+    smooth_fn()
+  end
+end
+
+map({ 'n', 'x' }, '<C-f>', scroll(function()
   neoscroll.ctrl_f({ duration = 350 })
-end, { desc = 'Page down smooth' })
+end, '<C-f>'), { desc = 'Page down smooth' })
 
-map({ 'n', 'x' }, '<C-b>', function()
+map({ 'n', 'x' }, '<C-b>', scroll(function()
   neoscroll.ctrl_b({ duration = 350 })
-end, { desc = 'Page up smooth' })
+end, '<C-b>'), { desc = 'Page up smooth' })
 
-map({ 'n', 'x' }, '<C-d>', function()
+map({ 'n', 'x' }, '<C-d>', scroll(function()
   neoscroll.ctrl_d({ duration = 220 })
-end, { desc = 'Half page down smooth' })
+end, '<C-d>'), { desc = 'Half page down smooth' })
 
-map({ 'n', 'x' }, '<C-u>', function()
+map({ 'n', 'x' }, '<C-u>', scroll(function()
   neoscroll.ctrl_u({ duration = 220 })
-end, { desc = 'Half page up smooth' })
+end, '<C-u>'), { desc = 'Half page up smooth' })

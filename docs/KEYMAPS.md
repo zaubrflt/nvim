@@ -8,7 +8,7 @@ localleader 映射。按下 Leader 后停顿片刻，which-key 会根据 keymap 
 
 ## 专题
 
-- [通用、窗口、滚动与 Buffer](keymaps/general.md)
+- [通用、窗口、滚动、Buffer 与 UI toggle](keymaps/general.md)
 - [补全、注释、LSP、诊断、格式化与调试](keymaps/coding.md)
 - [文件、搜索、大纲、文本对象与跳转](keymaps/navigation.md)
 - [Git 与 Lazygit](keymaps/git.md)
@@ -27,6 +27,7 @@ localleader 映射。按下 Leader 后停顿片刻，which-key 会根据 keymap 
 | `<leader>x` | Trouble | [工具](keymaps/tools.md#trouble) |
 | `<leader>S` | Session | [工具](keymaps/tools.md#会话) |
 | `<leader>t` | Terminal | [工具](keymaps/tools.md#终端) |
+| `<leader>u` | UI | [通用](keymaps/general.md#ui-toggle) |
 
 ## Leader 单键
 

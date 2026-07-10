@@ -60,10 +60,10 @@ Trouble 的诊断列表见 [工具快捷键](tools.md#trouble)。
 | `<leader>cs` | normal | 文档符号 |
 | `<leader>cw` | normal | 工作区符号 |
 | `<leader>ci` / `<leader>co` | normal | incoming / outgoing 调用链 |
-| `<leader>ch` | normal | 切换当前 buffer 的 inlay hints |
 
 insert 模式的 `<C-k>` 与 blink.cmp preset 同名，用途相同（显示签名）。
 normal 模式使用 `<leader>ck`，避免覆盖 smart-splits 的向上切窗。
+inlay hints 用 `<leader>uh` 切换，见 [UI toggle](general.md#ui-toggle)。
 
 LSP 的 fzf-lua 查询快捷键见 [导航快捷键](navigation.md#fzf-lua)。
 
@@ -74,6 +74,7 @@ LSP 的 fzf-lua 查询快捷键见 [导航快捷键](navigation.md#fzf-lua)。
 | 快捷键 / 命令 | 模式 | 说明 |
 | --- | --- | --- |
 | `<leader>fm` | normal / visual | 手动格式化当前 buffer 或选区 |
+| `<leader>uf` | normal | 切换保存格式化（会话内；启动默认关闭） |
 | `:FormatEnable` | command | 当前 Neovim 会话启用保存格式化 |
 | `:FormatDisable` | command | 关闭保存格式化 |
 

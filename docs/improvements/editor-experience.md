@@ -24,6 +24,9 @@
 
 ## 原生 toggle 层
 
+已完成：`lua/core/toggles.lua` 提供 `<leader>u*` 运行时开关，详见
+[通用快捷键](../keymaps/general.md#ui-toggle)。
+
 ### 缺口
 
 relative number、wrap、spell、diagnostics、inlay hints、保存格式化和平滑滚动

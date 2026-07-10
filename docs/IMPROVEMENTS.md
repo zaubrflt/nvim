@@ -12,7 +12,6 @@ AstroNvim 为目标。架构边界与明确不采用的方案见
 ## 优先方向
 
 - [Markdown buffer 内渲染](improvements/editor-experience.md#markdown-buffer-内渲染)
-- [原生 toggle 层](improvements/editor-experience.md#原生-toggle-层)
 - [仓库清理](improvements/quality.md#仓库清理)
 
 ## 工作流

@@ -66,12 +66,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     map('n', '<leader>cw', vim.lsp.buf.workspace_symbol, 'Workspace symbols')
     map('n', '<leader>ci', function() vim.lsp.buf.incoming_calls() end, 'Incoming calls')
     map('n', '<leader>co', function() vim.lsp.buf.outgoing_calls() end, 'Outgoing calls')
-
-    -- Toggle inlay hints (rust-analyzer / clangd).
-    if vim.lsp.inlay_hint and vim.lsp.inlay_hint.enable then
-      map('n', '<leader>ch', function()
-        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
-      end, 'Toggle inlay hints')
-    end
+    -- Inlay hints toggle lives in lua/core/toggles.lua (<leader>uh).
   end,
 })

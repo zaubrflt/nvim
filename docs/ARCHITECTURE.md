@@ -14,7 +14,8 @@ nvim/
 │   ├── core/
 │   │   ├── options.lua
 │   │   ├── keymaps.lua
-│   │   └── autocmds.lua
+│   │   ├── autocmds.lua
+│   │   └── toggles.lua
 │   └── plugins/
 │       ├── init.lua
 │       ├── colorscheme.lua
@@ -55,6 +56,7 @@ init.lua
 ├── core.options
 ├── core.keymaps
 ├── core.autocmds
+├── core.toggles
 └── plugins
     ├── vim.pack.add(...)
     ├── plugins.colorscheme
@@ -92,6 +94,9 @@ init.lua
 - `lua/core/keymaps.lua`：不依赖插件的快捷键。
 - `lua/core/autocmds.lua`：yank 高亮、保存前创建目录、恢复光标位置，以及
   特殊窗口的 `q` 关闭行为。
+- `lua/core/toggles.lua`：运行时 UI 开关（relative number、wrap、spell、
+  diagnostics、inlay hints、format-on-save、smooth scroll），不引入
+  snacks.nvim。
 
 ### 插件管理
 
@@ -138,8 +143,8 @@ init.lua
 - Rust 使用 `rustfmt`。
 - Lua 可选使用 `stylua`。
 - `vim.g.user_format_on_save` 启动时固定为 `false`。
-- `<leader>fm` 手动格式化；`:FormatEnable` / `:FormatDisable` 只在当前
-  Neovim 会话内切换保存格式化。
+- `<leader>fm` 手动格式化；`<leader>uf` 与 `:FormatEnable` /
+  `:FormatDisable` 只在当前 Neovim 会话内切换保存格式化。
 - 没有使用 `conform.setup({ format_on_save = ... })`，因为显式
   `BufWritePre` autocmd 才能支持运行时开关。
 

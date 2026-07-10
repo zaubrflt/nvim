@@ -42,12 +42,30 @@ LSP 的 normal 模式签名帮助使用 `<leader>ck`，不占用 `<C-k>`。
 ## 滚动
 
 以下映射由 neoscroll 接管；nvim-tree、aerial、Trouble、toggleterm、
-Lazygit 和 fzf 窗口会被排除。
+Lazygit 和 fzf 窗口会被排除。`<leader>uS` 可临时关闭平滑滚动，回退到原生
+翻页。
 
 | 快捷键 | 模式 | 说明 |
 | --- | --- | --- |
 | `<C-f>` / `<C-b>` | normal / visual | 平滑向下 / 向上翻一页 |
 | `<C-d>` / `<C-u>` | normal / visual | 平滑向下 / 向上翻半页 |
+
+## UI toggle
+
+运行时开关，不持久化；重启后恢复默认。实现见 `lua/core/toggles.lua`。
+
+| 快捷键 | 模式 | 作用域 | 说明 |
+| --- | --- | --- | --- |
+| `<leader>ur` | normal | window | 切换相对行号 |
+| `<leader>uw` | normal | window | 切换折行 |
+| `<leader>us` | normal | window | 切换拼写检查 |
+| `<leader>ud` | normal | global | 切换诊断显示 |
+| `<leader>uh` | normal | buffer | 切换 inlay hints |
+| `<leader>uf` | normal | session | 切换保存时格式化（启动默认关闭） |
+| `<leader>uS` | normal | session | 切换平滑滚动（启动默认开启） |
+
+每个开关会 `notify` 当前新状态。`<leader>uf` 与 `:FormatEnable` /
+`:FormatDisable` 共用 `vim.g.user_format_on_save`。
 
 ## Buffer
 
