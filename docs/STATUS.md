@@ -35,6 +35,8 @@
 - toggleterm。
 - resession 命名和 branch-scoped 自动会话。
 - Neovim 原生 `gc` / `gcc` 注释能力已记录在快捷键文档。
+- LSP insert 模式用 `<C-k>`、normal 模式用 `<leader>ck` 显示签名，避免覆盖
+  smart-splits 的向上切窗。
 
 ### 文档
 
@@ -54,7 +56,6 @@
 
 - [Markdown buffer 内渲染](improvements/editor-experience.md#markdown-buffer-内渲染)
 - [原生运行时 toggle 层](improvements/editor-experience.md#原生-toggle-层)
-- [解决 LSP `<C-k>` 与向上切换窗口的冲突](improvements/editor-experience.md#c-k-映射冲突)
 - [清理孤立的 `.neoconf.json`](improvements/quality.md#仓库清理)
 
 ### 后续

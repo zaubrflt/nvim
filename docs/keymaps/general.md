@@ -21,8 +21,7 @@
 
 `<C-h/j/k/l>` 由 smart-splits 接管。位于 Neovim 分屏边缘时，它可以继续
 穿越 tmux、wezterm 或 kitty pane；没有复用器时等价于普通窗口导航。
-已附着 LSP 的 buffer 会用 buffer-local `<C-k>` 显示函数签名，覆盖全局的
-“向上移动”映射；详见 [LSP 快捷键](coding.md#lsp)。
+LSP 的 normal 模式签名帮助使用 `<leader>ck`，不占用 `<C-k>`。
 
 | 快捷键 | 模式 | 说明 |
 | --- | --- | --- |

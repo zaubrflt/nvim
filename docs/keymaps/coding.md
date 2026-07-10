@@ -53,7 +53,8 @@ Trouble 的诊断列表见 [工具快捷键](tools.md#trouble)。
 | `gi` | normal | 跳转实现 |
 | `gy` | normal | 跳转类型定义 |
 | `K` | normal | Hover 文档 |
-| `<C-k>` | normal / insert | 函数签名 |
+| `<C-k>` | insert | 函数签名 |
+| `<leader>ck` | normal | 函数签名 |
 | `<leader>rn` | normal | 重命名符号 |
 | `<leader>ca` | normal / visual | Code action |
 | `<leader>cs` | normal | 文档符号 |
@@ -61,10 +62,8 @@ Trouble 的诊断列表见 [工具快捷键](tools.md#trouble)。
 | `<leader>ci` / `<leader>co` | normal | incoming / outgoing 调用链 |
 | `<leader>ch` | normal | 切换当前 buffer 的 inlay hints |
 
-注意：LSP attach 后，buffer-local `<C-k>` 在 normal 和 insert mode 都优先于
-全局映射。insert mode 中它覆盖 blink.cmp 的同名签名映射，但用途相同；
-normal mode 中它覆盖 smart-splits，因此显示签名而不是向上切换窗口。其余
-`<C-h/j/l>` 不受影响。
+insert 模式的 `<C-k>` 与 blink.cmp preset 同名，用途相同（显示签名）。
+normal 模式使用 `<leader>ck`，避免覆盖 smart-splits 的向上切窗。
 
 LSP 的 fzf-lua 查询快捷键见 [导航快捷键](navigation.md#fzf-lua)。
 

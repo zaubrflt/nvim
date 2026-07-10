@@ -57,7 +57,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
     map('n', 'gi', vim.lsp.buf.implementation, 'Goto implementation')
     map('n', 'gy', vim.lsp.buf.type_definition, 'Goto type definition')
     map('n', 'K', vim.lsp.buf.hover, 'Hover')
-    map({ 'i', 'n' }, '<C-k>', vim.lsp.buf.signature_help, 'Signature help')
+    -- Insert keeps <C-k>; normal uses <leader>ck so smart-splits keeps <C-k>.
+    map('i', '<C-k>', vim.lsp.buf.signature_help, 'Signature help')
+    map('n', '<leader>ck', vim.lsp.buf.signature_help, 'Signature help')
     map('n', '<leader>rn', vim.lsp.buf.rename, 'Rename symbol')
     map({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, 'Code action')
     map('n', '<leader>cs', vim.lsp.buf.document_symbol, 'Document symbols')

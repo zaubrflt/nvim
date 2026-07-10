@@ -53,23 +53,8 @@ snacks.nvim：
 
 ## C-k 映射冲突
 
-### 缺口
-
-smart-splits 全局使用 normal-mode `<C-k>` 向上切换窗口；LSP attach 后又以
-buffer-local `<C-k>` 注册函数签名，后者会覆盖前者。
-
-### 建议
-
-优先保留 normal-mode `<C-k>` 的四方向窗口导航一致性：
-
-- insert mode 继续使用 `<C-k>` 显示签名。
-- normal mode 签名帮助改用不冲突的 Code 分组键，例如 `<leader>ck`。
-- 同步 which-key 描述和快捷键文档。
-
-### 验收
-
-- LSP buffer 和普通 buffer 中 `<C-h/j/k/l>` 都能四方向导航。
-- normal 与 insert mode 都有可发现的签名帮助入口。
+已完成：insert 保留 `<C-k>`，normal 改用 `<leader>ck`，详见
+[编码快捷键](../keymaps/coding.md#lsp)。
 
 ## Harpoon v2
 
