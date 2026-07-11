@@ -8,7 +8,8 @@ end
 
 nordic.setup({
   -- Punctuation / operators in cyan to make them pop in dense C++/Rust source,
-  -- and a calmer Visual selection (blue0 bg / white0 fg, no bold).
+  -- a calmer Visual selection (blue0 bg / white0 fg, no bold), and a mid-gray
+  -- WinSeparator so vertical splits stay readable without bright_border.
   on_highlight = function(highlights, palette)
     local strong = palette.cyan.base or palette.cyan.bright
 
@@ -23,6 +24,8 @@ nordic.setup({
       fg = palette.white0,
       bold = false,
     }
+    highlights.WinSeparator = { fg = palette.gray4 }
+    highlights.VertSplit = { fg = palette.gray4 }
   end,
 
   bold_keywords = false,
