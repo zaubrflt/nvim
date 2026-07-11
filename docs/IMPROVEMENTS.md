@@ -11,7 +11,6 @@ AstroNvim 为目标。架构边界与明确不采用的方案见
 
 ## 优先方向
 
-- [Markdown buffer 内渲染](improvements/editor-experience.md#markdown-buffer-内渲染)
 - [仓库清理](improvements/quality.md#仓库清理)
 
 ## 工作流
@@ -21,6 +20,7 @@ AstroNvim 为目标。架构边界与明确不采用的方案见
 
 ## 按需评估
 
+- [Markdown buffer 内渲染](improvements/editor-experience.md#markdown-buffer-内渲染)
 - [Harpoon v2](improvements/editor-experience.md#harpoon-v2)
 - [`vim.ui.input()` 界面](improvements/editor-experience.md#vimuiinput-界面)
 - [启动性能基准](improvements/quality.md#启动性能基准)

@@ -56,7 +56,6 @@
 
 ### 优先
 
-- [Markdown buffer 内渲染](improvements/editor-experience.md#markdown-buffer-内渲染)
 - [清理孤立的 `.neoconf.json`](improvements/quality.md#仓库清理)
 
 ### 后续
@@ -66,6 +65,7 @@
 
 ### 按需
 
+- [Markdown buffer 内渲染](improvements/editor-experience.md#markdown-buffer-内渲染)
 - [Harpoon v2](improvements/editor-experience.md#harpoon-v2)
 - [`vim.ui.input()` 界面增强](improvements/editor-experience.md#vimuiinput-界面)
 - [启动性能基准](improvements/quality.md#启动性能基准)
