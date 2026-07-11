@@ -9,10 +9,6 @@ AstroNvim 为目标。架构边界与明确不采用的方案见
 功能处于“已实现 / 正在实现 / 计划实现”的哪个阶段，以
 [实现状态](STATUS.md)为准。
 
-## 优先方向
-
-- [仓库清理](improvements/quality.md#仓库清理)
-
 ## 工作流
 
 - [DAP 启动体验](improvements/project-workflow.md#dap-启动体验)

@@ -57,25 +57,12 @@ CI 初期不需要安装 clangd、完整 Rust toolchain 或 codelldb；重点是
 
 ## 仓库清理
 
-### 当前问题
+已完成：确认配置未引入 `neoconf.nvim` 后，已删除根目录孤立的
+`.neoconf.json`。不要仅为了保留该类文件而新增 neoconf.nvim。
 
-根目录存在 `.neoconf.json`，但配置没有引入 `neoconf.nvim`。该文件目前没有
-明确使用者。
-
-### 建议
-
-确认没有外部编辑器流程依赖后删除 `.neoconf.json`。不要仅为了保留该文件而
-新增 neoconf.nvim。
-
-同时保持以下清理规则：
+持续规则：
 
 - checkhealth、启动性能和调试日志不提交。
 - 根目录只保留运行配置、README、AGENTS、锁文件、许可证及必要元数据；
   详细文档统一位于 `docs/`。
 - 文档移动后清除旧路径链接和孤立入口。
-
-### 验收
-
-- 仓库搜索不到 `.neoconf.json` 的有效消费者时将其删除。
-- `git status` 不再长期出现临时 health 或日志输出。
-- 所有 Markdown 相对链接可解析。

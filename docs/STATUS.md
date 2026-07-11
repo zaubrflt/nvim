@@ -45,6 +45,7 @@
 - README 与 AGENTS 作为根目录入口。
 - 项目、架构、状态、安装、维护和排错文档按职责拆分到 `docs/`。
 - 快捷键和改进建议使用简洁索引加专题文档。
+- 已删除孤立的 `.neoconf.json`（配置未使用 neoconf.nvim）。
 
 ## 正在实现
 
@@ -56,7 +57,7 @@
 
 ### 优先
 
-- [清理孤立的 `.neoconf.json`](improvements/quality.md#仓库清理)
+当前无优先项。
 
 ### 后续
 
