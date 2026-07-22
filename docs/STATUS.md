@@ -39,6 +39,7 @@
   smart-splits 的向上切窗。
 - 原生 UI toggle 层（`<leader>u*`）：relative number、wrap、spell、diagnostics、
   inlay hints、format-on-save、smooth scroll。
+- `vim.pack` 管理快捷键（`<leader>l*`）：更新、浏览、health、日志、重装与删磁盘副本。
 
 ### 文档
 

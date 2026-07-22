@@ -29,6 +29,7 @@ wk.add({
   { '<leader>f',  group = 'File/Find/Format'      },
   { '<leader>fg', group = 'Find: git'             }, -- nested under <leader>f
   { '<leader>g',  group = 'Git'                   },
+  { '<leader>l',  group = 'Pack'                  }, -- vim.pack (LazyVim <leader>l letter)
   { '<leader>r',  group = 'Refactor'              },
   { '<leader>x',  group = 'Trouble'               },
   { '<leader>S',  group = 'Session'               },

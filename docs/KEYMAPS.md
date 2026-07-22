@@ -12,7 +12,7 @@ localleader 映射。按下 Leader 后停顿片刻，which-key 会根据 keymap 
 - [补全、注释、LSP、诊断、格式化与调试](keymaps/coding.md)
 - [文件、搜索、大纲、文本对象与跳转](keymaps/navigation.md)
 - [Git 与 Lazygit](keymaps/git.md)
-- [Trouble、TODO、终端与会话](keymaps/tools.md)
+- [Trouble、TODO、终端、会话与 Pack](keymaps/tools.md)
 
 ## Leader 分组
 
@@ -23,6 +23,7 @@ localleader 映射。按下 Leader 后停顿片刻，which-key 会根据 keymap 
 | `<leader>d` | Debug | [编码](keymaps/coding.md#调试) |
 | `<leader>f` | File / Find / Format | [编码](keymaps/coding.md#格式化) / [导航](keymaps/navigation.md) / [TODO](keymaps/tools.md#todo-注释) |
 | `<leader>g` | Git | [Git](keymaps/git.md) |
+| `<leader>l` | Pack | [工具](keymaps/tools.md#pack-vimpack) |
 | `<leader>r` | Refactor | [编码](keymaps/coding.md#lsp) |
 | `<leader>x` | Trouble | [工具](keymaps/tools.md#trouble) |
 | `<leader>S` | Session | [工具](keymaps/tools.md#会话) |

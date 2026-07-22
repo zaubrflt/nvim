@@ -8,9 +8,12 @@
 | 命令 | 作用 |
 | --- | --- |
 | `:checkhealth` | 全面检查 Neovim、provider 和插件 |
-| `:checkhealth vim.pack` | 检查插件和锁文件 |
-| `:lua vim.pack.update()` | 检查全部插件更新并打开确认 buffer |
-| `:lua vim.pack.del({ 'name' })` | 从磁盘移除指定插件 |
+| `:checkhealth vim.pack` | 检查插件和锁文件（快捷键 `<leader>lh`） |
+| `:lua vim.pack.update()` | 检查全部插件更新并打开确认 buffer（`<leader>lu`） |
+| `:lua vim.pack.update({ 'name' })` | 更新指定插件（`<leader>lU`） |
+| `:lua vim.pack.update(nil, { offline = true })` | 离线浏览已装插件（`<leader>lb`） |
+| `:lua vim.pack.del({ 'name' })` | 从磁盘移除指定插件（`<leader>lx`） |
+| `:lua vim.pack.del({ 'name' }, { force = true })` | 强制移除（含当前会话 active；`<leader>lr` 重装流程） |
 | `:TsEnsure` | 安装配置列表中缺失的 Treesitter parser |
 | `:TsUpdate` | 更新并重新编译配置列表中的 parser |
 | `:checkhealth nvim-treesitter` | 检查 CLI、编译器和 parser |
@@ -18,8 +21,14 @@
 | `:lua =vim.lsp.get_clients({ bufnr = 0 })` | 查看当前 buffer 的 LSP client |
 | `:messages` | 查看最近消息和错误 |
 
+`vim.pack` 日常操作也可通过 `<leader>l*` 完成，键位见
+[Pack](keymaps/tools.md#pack-vimpack)。
+
 `vim.pack.update()` 会展示候选更新。检查变更后，在确认 buffer 中执行
 `:write` 应用，或 `:quit` 放弃。更新后的插件通常应在重启 Neovim 后使用。
+
+安装失败或目录损坏时：用 `<leader>lr`（或 `vim.pack.del(..., { force = true })`）
+删掉该插件后执行 `:restart`，启动时的 `vim.pack.add()` 会按锁文件重装。
 
 ## 修改插件
 

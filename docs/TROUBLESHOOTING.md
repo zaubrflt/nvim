@@ -55,12 +55,16 @@
 
 ## 插件与 vim.pack
 
+日常管理快捷键见 [Pack](keymaps/tools.md#pack-vimpack)（`<leader>l*`）。
+
 ### 提示 `module 'xxx' not found`
 
 1. 查看 `:messages` 中对应插件的 clone/load 错误。
-2. 执行 `:checkhealth vim.pack`。
+2. 执行 `:checkhealth vim.pack`（或 `<leader>lh`）。
 3. 确认 Git 和网络可用。
-4. 插件成功安装后重启 Neovim。
+4. 用 `<leader>lr` 删除后 `:restart` 按锁文件重装，或直接重启让
+   `vim.pack.add()` 重试缺失插件。
+5. 插件成功安装后重启 Neovim。
 
 `vim.pack.add()` 的安装任务彼此并行，但函数会等待任务结束；问题不应简单归因
 于“异步尚未完成”。
@@ -68,7 +72,7 @@
 ### 锁文件异常
 
 `nvim-pack-lock.json` 应由 `vim.pack` 维护并纳入 Git。不要手工修订 revision。
-使用 `:checkhealth vim.pack` 和 `nvim-pack.log` 查找损坏或下载错误。
+使用 `:checkhealth vim.pack`、`<leader>ll`（`nvim-pack.log`）查找损坏或下载错误。
 
 ## Treesitter
 

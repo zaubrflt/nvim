@@ -1,4 +1,4 @@
-# 工具、终端与会话
+# 工具、终端、会话与 Pack
 
 [返回快捷键索引](../KEYMAPS.md)
 
@@ -59,3 +59,24 @@ toggleterm 提供持久的浮窗、水平和垂直终端实例。
 | `<leader>SL` | normal | 加载当前 `cwd@branch` 自动会话 |
 | `<leader>Sa` | normal | 加载自动会话但不绑定后续保存 |
 | `<leader>Sd` | normal | 删除会话 |
+
+## Pack（vim.pack）
+
+对应 LazyVim 的 `<leader>l`（打开 Lazy）与 AstroNvim 的 `<leader>p*`
+插件子命令；本配置 `<leader>p` 已用于剪贴板粘贴，故用 `<leader>l` 前缀映射
+原生 `vim.pack`。实现见 `lua/core/pack.lua`。
+
+列表项前的 `*` 表示当前会话已 `vim.pack.add()`（active）。更新类操作会打开
+确认 buffer：`:write` 应用，`:quit` 放弃。更完整的流程见
+[维护与验证](../MAINTENANCE.md#常用命令) 与
+[故障排查](../TROUBLESHOOTING.md#插件与-vimpack)。
+
+| 快捷键 | 模式 | 说明 |
+| --- | --- | --- |
+| `<leader>lu` | normal | 检查并更新全部插件 |
+| `<leader>lU` | normal | 选择一个插件并更新 |
+| `<leader>lb` | normal | 离线浏览已装插件（不 fetch） |
+| `<leader>lh` | normal | `:checkhealth vim.pack` |
+| `<leader>ll` | normal | 打开 `nvim-pack.log` |
+| `<leader>lr` | normal | 删除选中插件并提示 `:restart` 按锁文件重装 |
+| `<leader>lx` | normal | 从磁盘删除选中插件（未从 `vim.pack.add()` 移除仍会再装） |

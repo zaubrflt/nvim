@@ -15,7 +15,8 @@ nvim/
 │   │   ├── options.lua
 │   │   ├── keymaps.lua
 │   │   ├── autocmds.lua
-│   │   └── toggles.lua
+│   │   ├── toggles.lua
+│   │   └── pack.lua
 │   └── plugins/
 │       ├── init.lua
 │       ├── colorscheme.lua
@@ -57,6 +58,7 @@ init.lua
 ├── core.keymaps
 ├── core.autocmds
 ├── core.toggles
+├── core.pack
 └── plugins
     ├── vim.pack.add(...)
     ├── plugins.colorscheme
@@ -97,6 +99,8 @@ init.lua
 - `lua/core/toggles.lua`：运行时 UI 开关（relative number、wrap、spell、
   diagnostics、inlay hints、format-on-save、smooth scroll），不引入
   snacks.nvim。
+- `lua/core/pack.lua`：`vim.pack` 日常管理快捷键（`<leader>l*`），对应
+  LazyVim `<leader>l` / AstroNvim 插件子命令思路，不引入 lazy.nvim UI。
 
 ### 插件管理
 
@@ -110,6 +114,8 @@ init.lua
   编辑。
 - 每个插件的 `require` 使用 `pcall` 防护，首次安装失败时只告警，不让整个
   配置中断。
+- 更新、浏览、health、日志、重装与删磁盘副本通过 `lua/core/pack.lua` 的
+  `<leader>l*` 暴露；命令级说明见 [维护与验证](MAINTENANCE.md)。
 
 ### LSP 与补全
 
