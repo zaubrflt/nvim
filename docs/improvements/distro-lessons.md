@@ -1,11 +1,15 @@
-# LazyVim / AstroNvim 可借鉴项
+# LazyVim / AstroNvim / NvChad 可借鉴项
 
 [返回改进索引](../IMPROVEMENTS.md) · [实现状态](../STATUS.md) ·
 [架构选型](../ARCHITECTURE.md#选型记录)
 
-对照仓库内 `LazyVim/` 与 `AstroNvim/` 源码，整理对本配置有参考价值的能力。
-目标是**按缺口 cherry-pick**，不是复刻发行版。生命周期状态仍以
+对照仓库内 `LazyVim/`、`AstroNvim/` 与 `NvChad/` 源码，整理对本配置有参考价值的
+能力。目标是**按缺口 cherry-pick**，不是复刻发行版。生命周期状态仍以
 [实现状态](../STATUS.md) 为准；具体落地论证可再拆到各专题文档。
+
+`NvChad/` 为 v2.5 **主插件仓**（需配合 starter 使用）。`NvChad/ui`、base46、自定
+义 term / tabufline 等在独立仓库；本树对照以主仓插件表、options、mappings 与
+autocmds 为准。
 
 对照时的本仓库边界（不可破坏）：
 
@@ -14,14 +18,14 @@
 - Rust：直接 rust-analyzer（不用 rustaceanvim）
 - 静态分析：clangd `--clang-tidy` + clippy（不用 none-ls）
 - 保存格式化：默认关闭
-- 已明确不采用：snacks / noice / edgy / dashboard / heirline / telescope 等（见
-  [架构选型](../ARCHITECTURE.md#明确不采用)）
+- 已明确不采用：snacks / noice / edgy / dashboard / heirline / telescope /
+  base46 / NvChad UI 全家桶等（见 [架构选型](../ARCHITECTURE.md#明确不采用)）
 
 ---
 
 ## 已覆盖的重叠能力
 
-两边“开箱 IDE”主干，本配置大多已有等价实现，无需再对齐插件表。
+LazyVim / AstroNvim 的“开箱 IDE”主干，本配置大多已有等价实现，无需再对齐插件表。
 
 | 能力 | LazyVim / AstroNvim | 本配置 |
 |------|---------------------|--------|
@@ -41,6 +45,22 @@
 | UI toggle | snacks / astrocore `<leader>u*` | 原生 `lua/core/toggles.lua` |
 | Flash / surround / pairs | 有 | 同 |
 | which-key | 有 | 有 |
+
+NvChad 与本配置重叠的通用编辑能力（亦无需对齐插件表）：
+
+| 能力 | NvChad | 本配置 |
+|------|--------|--------|
+| 文件树 / Git / which-key | nvim-tree、gitsigns、which-key | 同 |
+| 格式化 | conform（示例偏 Lua） | conform（clang-format / rustfmt；默认关） |
+| Treesitter / snippets | treesitter、friendly-snippets | 同（parser 用户管理） |
+| 补全 | nvim-cmp + LuaSnip | blink.cmp |
+| 搜索 | telescope | fzf-lua |
+| LSP 安装与配置层 | mason + nvim-lspconfig | 原生 LSP + 系统工具 |
+| 缩进线 / 自动括号 | indent-blankline、nvim-autopairs | mini.indentscope、mini.pairs |
+| `<Esc>` 清搜索、`<leader>fm`、providers 禁用 | 有 | 已有 |
+
+NvChad **核心插件表不含 DAP**；C++ / Rust 调试与项目任务仍以 LazyVim / Astro
+笔记及 [项目工作流](project-workflow.md) 为准。
 
 ---
 
@@ -70,6 +90,8 @@
 - **来源**：LazyVim `extras.lang.clangd`。
 - **可借鉴**：`<leader>ch`（或同类）调用 `SwitchSourceHeader`；可选记录
   compile_commands / `.clangd` 等 root markers。
+- **注意**：NvChad 将 `<leader>ch` 绑到 NvCheatsheet；本仓库该键更适合给
+  clangd 源/头切换，不跟 NvChad 键位。
 - **可选加深**：`clangd_extensions`（AST 视图等）仅在有真实需求时引入。
 
 ### 大文件自动降级
@@ -123,6 +145,25 @@
 - **可借鉴**：点击 diagnostic sign → float；Ctrl+点击 → code action；点击
   DAP sign → 切换断点。手写 handler，不依赖 astroui。
 
+### 分屏稳定与行号高亮（NvChad options）
+
+- **来源**：NvChad `options.lua` 的 `splitkeep = "screen"`、
+  `cursorlineopt = "number"`。
+- **可借鉴**：各一行 option；前者减少分屏时内容跳动，后者只高亮行号列。
+  属偏好项，零新插件。
+
+### 含 ignored 的全量找文件（NvChad picker 配方）
+
+- **来源**：NvChad `<leader>fa`（Telescope `find_files` + hidden / no_ignore）。
+- **可借鉴**：用现有 fzf-lua 补一个对称的 files 变体；本配置已有 hidden
+  grep，不必引入 telescope。
+
+### 隐藏终端再选择（NvChad term 配方）
+
+- **来源**：NvChad Telescope `terms` 扩展；UI 仓另有可切换终端。
+- **可借鉴**：多 toggleterm 实例时，用 fzf-lua 或简单 `vim.ui.select` 列出隐藏
+  终端。优先级低于 DAP / 任务入口。
+
 ---
 
 ## P2：已有专题或按需再议
@@ -130,16 +171,19 @@
 | 项 | 主要来源 | 本仓库位置 / 说明 |
 |----|----------|-------------------|
 | Harpoon v2 | LazyVim extra | [Harpoon v2](editor-experience.md#harpoon-v2) |
-| `vim.ui.input` 美化 | snacks.input / dressing | [vim.ui.input](editor-experience.md#vimuiinput-界面)；仅 input，不引入 snacks/noice |
+| `vim.ui.input` 美化 | snacks.input / dressing；NvChad NvRenamer 同族 | [vim.ui.input](editor-experience.md#vimuiinput-界面)；仅 input，不引入 snacks/noice/NvChad UI |
 | Markdown buffer 渲染 | 社区常见 | [Markdown buffer 内渲染](editor-experience.md#markdown-buffer-内渲染) |
-| 启动性能基准 / CI smoke | 两边仓库实践 | [quality.md](quality.md) |
+| 启动性能基准 / CI smoke | LV / Astro 仓库实践 | [quality.md](quality.md) |
 | yanky / dial | LazyVim coding/editor extras | 有明确痛点再加 |
 | illuminate / document highlight | LV / snacks.words | 可用原生 `vim.lsp.buf.document_highlight` |
 | zen / zoom / scratch | snacks | 架构倾向不引入 snacks；可用轻量原生替代 |
-| lazydev.nvim | 两边 | 仅在常改本配置 Lua 时值得 |
+| lazydev.nvim | LV / Astro | 仅在常改本配置 Lua 时值得 |
 | F5 / F9 等调试功能键 | Astro | 映射到现有 dap 命令即可 |
 | 折叠策略级联 | Astro：LSP → treesitter → indent | 可改进 `foldexpr`，不必 heirline |
 | “Last Session” 快捷入口 | Astro dashboard / LV persistence | resession 已具备，可补快捷键 |
+| 关闭 LSP semantic tokens | NvChad `on_init` | 减少与 Treesitter 双重高亮；clangd / rust-analyzer 可能丢掉有用语义色，需实机试 |
+| nvim-tree `hijack_cursor` / `sync_root_with_cwd` | NvChad nvimtree 配置 | 本配置已有 `update_focused_file` 等；小增强，非刚需 |
+| `User FilePost` 延迟加载 | NvChad autocmds | 思路可参考，但 `vim.pack` 无 lazy load；收益有限，不必照搬 |
 
 ---
 
@@ -158,7 +202,12 @@
 | noice / nvim-notify / edgy / dashboard 类 | 收益不清或过重 |
 | heirline | lualine + bufferline 已够 |
 | telescope | 已选 fzf-lua |
+| base46 / NvChad UI / NvDash / NvCheatsheet / 主题切换器 | 本配置固定 Nordic + which-key + docs；不引入整套 UI |
+| minty 等调色工具 | 与 C++ / Rust 主工作流无关 |
 | format-on-save 默认开启 | 硬性基线相反 |
+| 默认 2 空格缩进 | 本配置默认四空格 + guess-indent |
+| Insert 模式 `<C-h/j/k/l>` 移光标 | 与本配置 insert `<C-k>` 签名帮助冲突 |
+| 普通模式 `<C-h/j/k/l>` 原生分屏导航 | 已由 smart-splits 接管 |
 | nvim-ts-autotag / better-escape | 与主工作流无关，或可用原生 keymap |
 | persistence.nvim | 已有 resession |
 | AI extras（copilot / avante 等） | 需单独决策，非当前缺口 |
@@ -166,18 +215,20 @@
 
 ---
 
-## 两边差异对本仓库的启示
+## 发行版差异对本仓库的启示
 
-| 维度 | LazyVim | AstroNvim | 对本仓库 |
-|------|---------|-----------|----------|
-| UX 中枢 | snacks 极大 | snacks + neo-tree + heirline | 继续单点插件 + 原生 API |
-| 语言包 | extras 很全（clangd / rust / cmake） | 核心通用，语言靠 Community | 只抄配方进 `lsp/` 与 `plugins/` |
-| 格式化默认 | 开 | 开 | 保持关 |
-| 可移植精华 | root、lang recipes、grug-far | large-buf、sign handlers、事件延迟加载 | 抄模式，不抄依赖图 |
+| 维度 | LazyVim | AstroNvim | NvChad | 对本仓库 |
+|------|---------|-----------|--------|----------|
+| 定位 | 语言 extras 丰富的 IDE 发行版 | 可扩展核心 + Community | UI + 通用编辑骨架 | 只抄配方，不抄依赖图 |
+| UX 中枢 | snacks 极大 | snacks + neo-tree + heirline | base46 + NvChad UI | 继续单点插件 + 原生 API |
+| 语言 / 调试 | extras（clangd / rust / cmake / dap） | 核心通用，语言靠 Community | 核心几乎无 DAP | C++ / Rust 工作流跟 LV/Astro，不跟 NvChad |
+| 格式化默认 | 开 | 开 | 未强制为本仓库基线 | 保持关 |
+| 可移植精华 | root、lang recipes、grug-far | large-buf、sign handlers、事件延迟 | `splitkeep` / `cursorlineopt`、全量 files、term picker | 边角体验可抄；主干仍看 LV/Astro |
 
 **一句话**：最值得搬的是项目根、DAP 启动、clangd 头文件切换、大文件防护、
-项目替换与 Cargo.toml 辅助；最不该搬的是插件管理器、Mason、rustaceanvim、
-snacks/noice 全家桶，以及默认开启 format-on-save。
+项目替换与 Cargo.toml 辅助；NvChad 只补充少量 editor option 与 picker/终端小
+体验。最不该搬的是插件管理器、Mason、rustaceanvim、snacks/noice/base46 UI
+全家桶，以及默认开启 format-on-save。
 
 ---
 
@@ -186,8 +237,9 @@ snacks/noice 全家桶，以及默认开启 format-on-save。
 1. 已有计划先做：[DAP 启动体验](project-workflow.md#dap-启动体验)、
    [项目任务入口](project-workflow.md#项目任务入口)（可顺带落地项目根检测）。
 2. 低成本增量：clangd `SwitchSourceHeader`、大文件降级、`]e`/`[e`、Flash 增量选择、
-   LSP 能力门控。
-3. 新插件候选：`grug-far`、`crates.nvim`；sign 列交互按需。
+   LSP 能力门控；可选 `splitkeep` / `cursorlineopt`。
+3. 新插件候选：`grug-far`、`crates.nvim`；sign 列交互按需；可选 fzf-lua 全量
+   files 与隐藏终端选择（NvChad 配方，仍用现有栈）。
 4. P2 与按需专题维持现状，有真实痛点再开实现。
 
 将某项移入实现时：先更新 [实现状态](../STATUS.md) 的“正在实现”，完成验证后再移到

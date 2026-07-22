@@ -2,8 +2,8 @@
 
 [返回 README](../README.md) · [实现状态](STATUS.md)
 
-改进以个人 C++ / Rust 工作流中的真实缺口为优先，不以复刻 LazyVim 或
-AstroNvim 为目标。架构边界与明确不采用的方案见
+改进以个人 C++ / Rust 工作流中的真实缺口为优先，不以复刻 LazyVim、
+AstroNvim 或 NvChad 为目标。架构边界与明确不采用的方案见
 [架构与设计](ARCHITECTURE.md#选型记录)。
 
 功能处于“已实现 / 正在实现 / 计划实现”的哪个阶段，以
@@ -11,7 +11,7 @@ AstroNvim 为目标。架构边界与明确不采用的方案见
 
 ## 对照笔记
 
-- [LazyVim / AstroNvim 可借鉴项](improvements/distro-lessons.md)
+- [LazyVim / AstroNvim / NvChad 可借鉴项](improvements/distro-lessons.md)
 
 ## 工作流
 
