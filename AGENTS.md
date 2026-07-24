@@ -74,7 +74,7 @@
 - 新增 `<leader>X` 字母前缀时，在 `lua/plugins/whichkey.lua` 注册 group；
   单键映射不注册 group。
 - `<C-h/j/k/l>` 由 smart-splits 接管，不在 core 中重复绑定。
-- `<C-f>/<C-b>/<C-d>/<C-u>` 由 neoscroll 接管，不在 core 中重复绑定。
+- `<C-f>/<C-b>/<C-d>/<C-u>` 由 snacks.scroll 接管，不在 core 中重复绑定。
 - `s` / `S` 属于 Flash；mini.surround 保持 `gs*` 前缀。
 
 ## 文档约束

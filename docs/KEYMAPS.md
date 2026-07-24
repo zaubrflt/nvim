@@ -36,6 +36,8 @@ localleader 映射。按下 Leader 后停顿片刻，which-key 会根据 keymap 
 | --- | --- | --- |
 | `<leader>w` / `<leader>q` / `<leader>Q` | 保存 / 退出窗口 / 强制退出全部 | [通用](keymaps/general.md#通用) |
 | `<leader>e` | 切换文件树 | [文件树](keymaps/navigation.md#文件树) |
+| `<leader>.` | 切换 scratch buffer | [通用](keymaps/general.md#通用) |
+| `<leader>n` | 通知历史 | [通用](keymaps/general.md#通用) |
 | `<leader>y` / `<leader>Y` / `<leader>p` | 系统剪贴板 | [通用](keymaps/general.md#通用) |
 | `<leader>O` | 切换代码大纲 | [代码大纲](keymaps/navigation.md#代码大纲) |
 | `<leader>1` ... `<leader>9` | 跳到第 N 个 buffer | [Buffer](keymaps/general.md#buffer) |

@@ -1,87 +1,65 @@
--- fzf-lua - fuzzy finder over the system `fzf` binary.
--- Replaces telescope here because the C-based backend stays snappy on
--- million-line C++/Rust trees.
+-- snacks.picker - fuzzy finder / select UI (replaces fzf-lua).
+-- Keep this repo's <leader>f* prefix; semantics align with LazyVim pickers.
 
-local ok, fzf = pcall(require, 'fzf-lua')
+local ok = pcall(require, 'snacks')
 if not ok then
-  vim.notify('fzf-lua not installed yet.', vim.log.levels.WARN)
+  vim.notify('snacks.nvim not installed yet.', vim.log.levels.WARN)
   return
 end
-
-fzf.setup({
-  -- 'default-title' is the same layout as 'default' but with a title bar that
-  -- shows what the current picker is - much easier to skim.
-  'default-title',
-  winopts = {
-    border = 'rounded',
-    preview = {
-      border = 'rounded',
-      scrollbar = 'float',
-      delay = 80,
-      layout = 'flex',
-      flip_columns = 130,
-    },
-  },
-  fzf_opts = {
-    ['--layout'] = 'reverse',
-    ['--info']   = 'inline-right',
-  },
-  files = {
-    formatter = 'path.filename_first',
-  },
-  grep = {
-    -- `rg --hidden --no-ignore-vcs` would also surface .git/objects; skip it.
-    rg_opts = '--hidden --column --line-number --no-heading --color=always '
-      .. '--smart-case --max-columns=4096 -g "!.git/" -g "!node_modules/" -g "!target/"',
-  },
-  -- Wire fzf-lua into Neovim's UI hooks so vim.ui.select() (used by
-  -- vim.lsp.buf.code_action and friends) renders inside an fzf popup.
-  defaults = {
-    formatter = 'path.filename_first',
-  },
-})
-
--- Register fzf-lua as the vim.ui.select implementation; this gives us a
--- consistent popup for code actions, plugin pickers, etc.
-fzf.register_ui_select()
 
 local map = vim.keymap.set
 
 -- Files and content.
-map('n', '<leader>ff', function() fzf.files() end,                 { desc = 'Find: files' })
-map('n', '<leader>fg', function() fzf.live_grep() end,             { desc = 'Find: live grep (cwd)' })
-map('n', '<leader>fG', function() fzf.lgrep_curbuf() end,          { desc = 'Find: live grep (buffer)' })
-map('n', '<leader>fw', function() fzf.grep_cword() end,            { desc = 'Find: word under cursor' })
-map('n', '<leader>fW', function() fzf.grep_cWORD() end,            { desc = 'Find: WORD under cursor' })
-map('v', '<leader>fw', function() fzf.grep_visual() end,           { desc = 'Find: selection' })
+map('n', '<leader>ff', function() Snacks.picker.files() end, { desc = 'Find: files' })
+map('n', '<leader>fg', function() Snacks.picker.grep() end, { desc = 'Find: live grep (cwd)' })
+map('n', '<leader>fG', function() Snacks.picker.grep_buffers() end, { desc = 'Find: live grep (buffers)' })
+map({ 'n', 'x' }, '<leader>fw', function() Snacks.picker.grep_word() end, {
+  desc = 'Find: word / selection',
+})
+map('n', '<leader>fW', function()
+  Snacks.picker.grep({ search = vim.fn.expand('<cWORD>') })
+end, { desc = 'Find: WORD under cursor' })
 
 -- Buffer / file history navigation.
-map('n', '<leader>fb', function() fzf.buffers() end,               { desc = 'Find: open buffers' })
-map('n', '<leader>fr', function() fzf.oldfiles() end,              { desc = 'Find: recent files' })
-map('n', '<leader>fl', function() fzf.blines() end,                { desc = 'Find: lines (buffer)' })
-map('n', '<leader>fL', function() fzf.lines() end,                 { desc = 'Find: lines (all buffers)' })
+map('n', '<leader>fb', function() Snacks.picker.buffers() end, { desc = 'Find: open buffers' })
+map('n', '<leader>fr', function() Snacks.picker.recent() end, { desc = 'Find: recent files' })
+map('n', '<leader>fl', function() Snacks.picker.lines() end, { desc = 'Find: lines (buffer)' })
+map('n', '<leader>fL', function() Snacks.picker.grep_buffers() end, { desc = 'Find: lines (all buffers)' })
 
 -- Help / keymap discovery.
-map('n', '<leader>fh', function() fzf.help_tags() end,             { desc = 'Find: help tags' })
-map('n', '<leader>fk', function() fzf.keymaps() end,               { desc = 'Find: keymaps' })
-map('n', '<leader>f:', function() fzf.command_history() end,       { desc = 'Find: command history' })
-map('n', '<leader>f/', function() fzf.search_history() end,        { desc = 'Find: search history' })
+map('n', '<leader>fh', function() Snacks.picker.help() end, { desc = 'Find: help tags' })
+map('n', '<leader>fk', function() Snacks.picker.keymaps() end, { desc = 'Find: keymaps' })
+map('n', '<leader>f:', function() Snacks.picker.command_history() end, { desc = 'Find: command history' })
+map('n', '<leader>f/', function() Snacks.picker.search_history() end, { desc = 'Find: search history' })
 
--- LSP-backed pickers (only meaningful inside a buffer with a server attached).
-map('n', '<leader>fs', function() fzf.lsp_document_symbols() end,  { desc = 'Find: document symbols' })
-map('n', '<leader>fS', function() fzf.lsp_live_workspace_symbols() end, { desc = 'Find: workspace symbols' })
-map('n', '<leader>fd', function() fzf.lsp_definitions() end,       { desc = 'Find: LSP definitions' })
-map('n', '<leader>fR', function() fzf.lsp_references() end,        { desc = 'Find: LSP references' })
-map('n', '<leader>fi', function() fzf.lsp_implementations() end,   { desc = 'Find: LSP implementations' })
-map('n', '<leader>fy', function() fzf.lsp_typedefs() end,          { desc = 'Find: LSP type defs' })
-map('n', '<leader>fa', function() fzf.lsp_code_actions() end,      { desc = 'Find: LSP code actions' })
-map('n', '<leader>fD', function() fzf.diagnostics_workspace() end, { desc = 'Find: diagnostics (workspace)' })
+-- LSP-backed pickers.
+map('n', '<leader>fs', function() Snacks.picker.lsp_symbols() end, { desc = 'Find: document symbols' })
+map('n', '<leader>fS', function() Snacks.picker.lsp_workspace_symbols() end, {
+  desc = 'Find: workspace symbols',
+})
+map('n', '<leader>fd', function() Snacks.picker.lsp_definitions() end, { desc = 'Find: LSP definitions' })
+map('n', '<leader>fR', function() Snacks.picker.lsp_references() end, { desc = 'Find: LSP references' })
+map('n', '<leader>fi', function() Snacks.picker.lsp_implementations() end, {
+  desc = 'Find: LSP implementations',
+})
+map('n', '<leader>fy', function() Snacks.picker.lsp_type_definitions() end, {
+  desc = 'Find: LSP type defs',
+})
+map('n', '<leader>fa', function()
+  -- Prefer LSP code action UI via vim.ui.select (wired to snacks picker).
+  vim.lsp.buf.code_action()
+end, { desc = 'Find: LSP code actions' })
+map('n', '<leader>fD', function() Snacks.picker.diagnostics() end, {
+  desc = 'Find: diagnostics (workspace)',
+})
 
--- Git pickers (complement gitsigns + lazygit).
-map('n', '<leader>fgs', function() fzf.git_status() end,           { desc = 'Find: git status' })
-map('n', '<leader>fgc', function() fzf.git_commits() end,          { desc = 'Find: git commits (repo)' })
-map('n', '<leader>fgC', function() fzf.git_bcommits() end,         { desc = 'Find: git commits (buffer)' })
-map('n', '<leader>fgb', function() fzf.git_branches() end,         { desc = 'Find: git branches' })
+-- Git pickers (complement gitsigns + Snacks.lazygit).
+map('n', '<leader>fgs', function() Snacks.picker.git_status() end, { desc = 'Find: git status' })
+map('n', '<leader>fgc', function() Snacks.picker.git_log() end, { desc = 'Find: git commits (repo)' })
+map('n', '<leader>fgC', function() Snacks.picker.git_log_file() end, {
+  desc = 'Find: git commits (buffer)',
+})
+map('n', '<leader>fgb', function() Snacks.picker.git_branches() end, { desc = 'Find: git branches' })
 
--- Resume the last picker (huge time saver after one accidental <esc>).
-map('n', '<leader>f.', function() fzf.resume() end,                { desc = 'Find: resume last picker' })
+-- Resume the last picker.
+map('n', '<leader>f.', function() Snacks.picker.resume() end, { desc = 'Find: resume last picker' })

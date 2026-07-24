@@ -192,8 +192,21 @@ rustup component add rust-analyzer rustfmt clippy
 确认 C/C++ 有 `clang-format`，Rust 有 `rustfmt`。保存格式化默认关闭是预期
 行为；只有显式执行 `:FormatEnable` 后才会在保存时运行。
 
-## fzf-lua 与 Lazygit
+## snacks picker 与 Lazygit
 
-- fzf-lua 文件查找需要 `fzf`；live grep 还需要 `rg`。
+- snacks picker 文件查找与 live grep 需要 `rg`（可选 `fd` 加速文件枚举）。
 - lazygit 快捷键不可用时运行 `:lua =vim.fn.exepath('lazygit')`。缺少二进制
   时配置会跳过这些映射并发出警告。
+
+## snacks 常见问题
+
+- **picker 在超大仓库偏慢**：确认 `rg` / `fd` 在 PATH；可对比是否需要收紧
+  ignore。本仓库未保留 fzf-lua 作后端。
+- **explorer 与 bufferline 重叠**：offset 依赖 filetype
+  `snacks_picker_list`；若实机 filetype 不同，用 `:lua =vim.bo.filetype`
+  核对后改 `lua/plugins/bufferline.lua`。
+- **notifier 挡住消息**：`<leader>un` 关闭全部通知；`<leader>n` 打开历史。
+- **关 buffer 后侧栏全屏**：应使用 `<leader>bd`（`Snacks.bufdelete`），不要
+  用会拆掉布局的裸 `:bdelete` 习惯路径。
+- **`:checkhealth snacks`**：迁徙后应通过；失败时先确认 `snacks.nvim` 已由
+  `vim.pack` 安装且 `plugins.snacks` 在主题后加载。

@@ -20,18 +20,16 @@ nvim/
 │   └── plugins/
 │       ├── init.lua
 │       ├── colorscheme.lua
+│       ├── snacks.lua
 │       ├── treesitter.lua
 │       ├── completion.lua
 │       ├── lsp.lua
 │       ├── format.lua
 │       ├── dap.lua
 │       ├── git.lua
-│       ├── lazygit.lua
-│       ├── filetree.lua
 │       ├── picker.lua
 │       ├── statusline.lua
 │       ├── editing.lua
-│       ├── scroll.lua
 │       ├── motion.lua
 │       ├── outline.lua
 │       ├── trouble.lua
@@ -39,7 +37,6 @@ nvim/
 │       ├── todo.lua
 │       ├── session.lua
 │       ├── bufferline.lua
-│       ├── terminal.lua
 │       └── whichkey.lua
 ├── lsp/
 │   ├── clangd.lua
@@ -57,48 +54,47 @@ init.lua
 ├── core.options
 ├── core.keymaps
 ├── core.autocmds
-├── core.toggles
 ├── core.pack
-└── plugins
-    ├── vim.pack.add(...)
-    ├── plugins.colorscheme
-    ├── plugins.treesitter
-    ├── plugins.completion
-    ├── plugins.lsp
-    ├── plugins.format
-    ├── plugins.dap
-    ├── plugins.git
-    ├── plugins.lazygit
-    ├── plugins.filetree
-    ├── plugins.picker
-    ├── plugins.statusline
-    ├── plugins.editing
-    ├── plugins.scroll
-    ├── plugins.motion
-    ├── plugins.outline
-    ├── plugins.trouble
-    ├── plugins.splits
-    ├── plugins.todo
-    ├── plugins.session
-    ├── plugins.bufferline
-    ├── plugins.terminal
-    └── plugins.whichkey
+├── plugins
+│   ├── vim.pack.add(...)
+│   ├── plugins.colorscheme
+│   ├── plugins.snacks          # early: Snacks.* for later modules
+│   ├── plugins.treesitter
+│   ├── plugins.completion
+│   ├── plugins.lsp
+│   ├── plugins.format
+│   ├── plugins.dap
+│   ├── plugins.git
+│   ├── plugins.picker
+│   ├── plugins.statusline
+│   ├── plugins.editing
+│   ├── plugins.motion
+│   ├── plugins.outline
+│   ├── plugins.trouble
+│   ├── plugins.splits
+│   ├── plugins.todo
+│   ├── plugins.session
+│   ├── plugins.bufferline
+│   └── plugins.whichkey
+└── core.toggles                # after snacks.setup()
 ```
 
-主题最先配置，避免界面先使用默认高亮。`which-key` 最后配置，使前面注册的
-所有 `desc` 都已存在。
+主题最先配置，避免界面先使用默认高亮。`snacks` 紧接主题，保证后续
+`Snacks.*` 可用。`which-key` 在插件中最后配置；`core.toggles` 在全部插件之后，
+以便 `Snacks.toggle` 已就绪。
 
 ## 核心模块
 
 ### 基础配置
 
 - `lua/core/options.lua`：缩进、显示、搜索、窗口、持久化、补全菜单和折叠。
-- `lua/core/keymaps.lua`：不依赖插件的快捷键。
+- `lua/core/keymaps.lua`：不依赖插件的快捷键；buffer 删除调用
+  `Snacks.bufdelete`（运行时解析）。
 - `lua/core/autocmds.lua`：yank 高亮、保存前创建目录、恢复光标位置，以及
   特殊窗口的 `q` 关闭行为。
-- `lua/core/toggles.lua`：运行时 UI 开关（relative number、wrap、spell、
-  diagnostics、inlay hints、format-on-save、smooth scroll），不引入
-  snacks.nvim。
+- `lua/core/toggles.lua`：运行时 UI 开关，由 `Snacks.toggle` 重建
+  （relative number、wrap、spell、diagnostics、inlay hints、format-on-save、
+  scroll、zen/zoom 等）；format-on-save 启动仍为关闭。
 - `lua/core/pack.lua`：`vim.pack` 日常管理快捷键（`<leader>l*`），对应
   LazyVim `<leader>l` / AstroNvim 插件子命令思路，不引入 lazy.nvim UI。
 
@@ -161,17 +157,18 @@ init.lua
 
 ### 导航与界面
 
-- `fzf-lua` 使用系统 `fzf`，并接管 `vim.ui.select()`。
-- `nvim-tree` 提供文件树并禁用 netrw。
+- `snacks.nvim` 是 UX 中枢：picker、explorer、terminal、lazygit、bufdelete、
+  scroll、indent/scope、notifier、input、words、toggle 等；dashboard 默认关闭。
+- snacks picker 接管 `vim.ui.select()`；键位保留本仓库 `<leader>f*` 前缀。
+- snacks explorer 提供文件树；bufferline 为 `snacks_picker_list` 与 aerial
+  预留 offset。
 - `aerial` 按 LSP、Treesitter、Markdown、man 的顺序选择大纲后端。
 - `smart-splits` 接管 normal mode 的 `<C-h/j/k/l>`，可穿越
   tmux/wezterm/kitty pane；没有复用器时退化为普通 Neovim 分屏导航。
-- `toggleterm` 的 terminal-mode 映射先退出 terminal mode，再使用原生
+- snacks terminal 的 terminal-mode 映射先退出 terminal mode，再使用原生
   `<C-w>` 导航离开终端 buffer。
-- `bufferline` 为 nvim-tree 和 aerial 预留 offset。
 - `lualine` 使用全局状态栏，展示 Git、诊断、DAP 和已附着 LSP 信息；它没有
   独立快捷键。
-- `mini.indentscope` 在文件树、浮窗、终端、DAP UI 等特殊 filetype 中禁用。
 
 ### 会话
 
@@ -179,20 +176,20 @@ init.lua
 
 - `VimLeavePre` 保存当前会话。
 - 只有无文件参数启动时，`VimEnter` 才自动恢复。
-- 文件树、终端、DAP UI 等临时 buffer 不写入会话。
+- explorer、终端、DAP UI 等临时 buffer 不写入会话。
 
 ## 路径与工具约定
 
 - 路径优先使用 `vim.fs.joinpath()` 和 `vim.fn.stdpath()`。
 - 系统工具从 `PATH` 发现，不硬编码个人机器路径。
 
-## 关键交互约定
+## 键盘交互约定
 
 - `<Space>` 是全局和 local Leader。
 - 所有自定义快捷键必须设置 `desc`。
 - `s` / `S` 由 Flash 使用；原生 substitute char/line 分别改用 `cl` / `cc`。
 - mini.surround 使用 `gs*`，避免与 Flash 冲突。
-- `<C-f>/<C-b>/<C-d>/<C-u>` 由 neoscroll 接管。
+- `<C-f>/<C-b>/<C-d>/<C-u>` 由 snacks.scroll 接管。
 - `<C-h/j/k/l>` 由 smart-splits 接管，不能在 core 中重复绑定。
 
 完整键位见 [快捷键索引](KEYMAPS.md)。
@@ -206,7 +203,10 @@ init.lua
 - 原生 LSP 配置：当前只有 clangd 与 rust-analyzer，不需要额外配置层。
 - `conform.nvim`：只负责格式化，静态分析留给语言 server。
 - `nvim-dap` + codelldb：C/C++/Rust 使用统一调试路径。
-- `fzf-lua`：使用系统 `fzf`，适合大型代码库。
+- `snacks.nvim`：UX 中枢，模块集对齐 LazyVim（picker / explorer / terminal /
+  bufdelete / toggle / notifier / input 等）；不引入 noice / edgy /
+  nvim-notify，dashboard 默认关闭。详见
+  [snacks 迁徙](improvements/snacks-migration.md)。
 - `resession.nvim`：支持命名和 branch-scoped 会话。
 
 ### 明确不采用
@@ -217,9 +217,10 @@ init.lua
 - `mason.nvim`：系统工具统一由平台包管理器安装。
 - `rustaceanvim`：会让 Rust 与 C++ 走不同的 LSP/调试路径。
 - `none-ls.nvim`：格式化与 lint 职责已有明确归属。
-- `snacks.nvim`、`noice.nvim`、`alpha-nvim`、`dashboard-nvim`、
-  `edgy.nvim`、`nvim-notify`：功能范围过大或当前没有明确收益。
-- `telescope.nvim`：当前使用系统 `fzf` 驱动的 fzf-lua。
+- `noice.nvim`、`alpha-nvim`、`dashboard-nvim`、`edgy.nvim`、
+  `nvim-notify`：与 snacks 或本仓库边界重叠；独立 dashboard 类插件不引入
+  （若需要启动页则用 `snacks.dashboard`）。
+- `telescope.nvim`：搜索由 snacks picker 承担。
 - `heirline.nvim`：lualine + bufferline 已满足状态栏和 buffer 展示。
 - `markdown-preview.nvim`：依赖 npm 和浏览器；若需要 Markdown buffer
   内渲染，优先评估 render-markdown.nvim。

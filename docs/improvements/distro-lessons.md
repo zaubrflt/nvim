@@ -37,13 +37,13 @@ LazyVim / AstroNvim 的“开箱 IDE”主干，本配置大多已有等价实�
 | 调试 | nvim-dap + dap-ui | 同 + 共用 codelldb |
 | Treesitter / 文本对象 | 有 | 同（`main`；`:TsEnsure` 用户管理） |
 | Git | gitsigns + lazygit | 同 |
-| 文件树 | neo-tree / snacks explorer | nvim-tree |
-| 搜索 | snacks picker / fzf | fzf-lua |
+| 文件树 | neo-tree / snacks explorer | snacks explorer |
+| 搜索 | snacks picker / fzf | snacks picker |
 | 大纲 | aerial（LV 为 extra） | aerial |
 | Trouble / TODO | 有 | 有 |
 | 分屏导航 | smart-splits（Astro） | 同 |
 | 会话 | persistence / resession | resession |
-| UI toggle | snacks / astrocore `<leader>u*` | 原生 `lua/core/toggles.lua` |
+| UI toggle | snacks / astrocore `<leader>u*` | `Snacks.toggle`（`lua/core/toggles.lua`） |
 | Flash / surround / pairs | 有 | 同 |
 | which-key | 有 | 有 |
 
@@ -199,10 +199,10 @@ NvChad **核心插件表不含 DAP**；C++ / Rust 调试与项目任务仍以 La
 | nvim-lspconfig | 仅两个 server，原生足够 |
 | rustaceanvim | 破坏 C++ / Rust 统一调试路径 |
 | none-ls | 格式化与 lint 职责已有归属 |
-| snacks 全家桶 | **已改决策**：计划按 LazyVim 模块集迁入，见 [snacks 迁徙](snacks-migration.md)；仍拒绝 noice/edgy/lazy.nvim |
-| noice / nvim-notify / edgy / dashboard 类 | 收益不清或过重 |
+| snacks 全家桶 | **已落地**：按 LazyVim 模块集接入，见 [snacks 迁徙](snacks-migration.md)；仍拒绝 noice/edgy/lazy.nvim |
+| noice / nvim-notify / edgy / dashboard 类 | 收益不清或过重；dashboard 若启用则用 snacks.dashboard |
 | heirline | lualine + bufferline 已够 |
-| telescope | 已选 fzf-lua |
+| telescope | 搜索由 snacks picker 承担 |
 | base46 / NvChad UI / NvDash / NvCheatsheet / 主题切换器 | 本配置固定 Nordic + which-key + docs；不引入整套 UI |
 | minty 等调色工具 | 与 C++ / Rust 主工作流无关 |
 | format-on-save 默认开启 | 硬性基线相反 |
@@ -221,14 +221,14 @@ NvChad **核心插件表不含 DAP**；C++ / Rust 调试与项目任务仍以 La
 | 维度 | LazyVim | AstroNvim | NvChad | 对本仓库 |
 |------|---------|-----------|--------|----------|
 | 定位 | 语言 extras 丰富的 IDE 发行版 | 可扩展核心 + Community | UI + 通用编辑骨架 | 只抄配方，不抄依赖图 |
-| UX 中枢 | snacks 极大 | snacks + neo-tree + heirline | base46 + NvChad UI | **计划**迁 snacks（见 [snacks 迁徙](snacks-migration.md)）；实现前仍为单点插件 |
+| UX 中枢 | snacks 极大 | snacks + neo-tree + heirline | base46 + NvChad UI | **已采用** snacks（见 [snacks 迁徙](snacks-migration.md)） |
 | 语言 / 调试 | extras（clangd / rust / cmake / dap） | 核心通用，语言靠 Community | 核心几乎无 DAP | C++ / Rust 工作流跟 LV/Astro，不跟 NvChad |
 | 格式化默认 | 开 | 开 | 未强制为本仓库基线 | 保持关 |
 | 可移植精华 | root、lang recipes、grug-far | large-buf、sign handlers、事件延迟 | `splitkeep` / `cursorlineopt`、全量 files、term picker | 边角体验可抄；主干仍看 LV/Astro |
 
 **一句话**：最值得搬的是项目根、DAP 启动、clangd 头文件切换、大文件防护、
 项目替换与 Cargo.toml 辅助；NvChad 只补充少量 editor option 与 picker/终端小
-体验。snacks 已改为按 [迁徙计划](snacks-migration.md)对齐 LazyVim 接入；仍不搬
+体验。snacks 已按 [迁徙计划](snacks-migration.md)对齐 LazyVim 接入；仍不搬
 插件管理器、Mason、rustaceanvim、noice/base46 UI，以及默认开启 format-on-save。
 
 ---

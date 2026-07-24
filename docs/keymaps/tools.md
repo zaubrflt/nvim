@@ -29,23 +29,23 @@ todo-comments 高亮 `TODO`、`FIXME`、`HACK`、`WARN`、`PERF`、`NOTE`、
 | 快捷键 | 模式 | 说明 |
 | --- | --- | --- |
 | `]t` / `[t` | normal | 下 / 上一个 TODO 注释 |
-| `<leader>ft` | normal | 使用 fzf-lua 搜索工作区 TODO |
+| `<leader>ft` | normal | 使用 snacks picker 搜索工作区 TODO |
 | `<leader>xt` | normal | 使用 Trouble 列出 TODO |
 
 ## 终端
 
-toggleterm 提供持久的浮窗、水平和垂直终端实例。
+终端由 `Snacks.terminal` 提供浮窗与分屏实例。浮窗与水平 / 垂直分屏是**不同
+实例**（内部用不同 `count` 区分）；各自再按一次对应键可隐藏。
 
 | 快捷键 | 模式 | 说明 |
 | --- | --- | --- |
-| `<C-\>` | normal / terminal | 切换默认终端 |
+| `<C-\>` | normal / terminal | 切换浮窗终端 |
 | `<leader>tf` | normal / terminal | 浮窗终端 |
-| `<leader>th` | normal / terminal | 水平终端 |
-| `<leader>tv` | normal / terminal | 垂直终端 |
-| `<leader>tt` | normal / terminal | 切换默认终端 |
-| `<leader>tn` | normal | 选择终端实例 |
+| `<leader>th` | normal / terminal | 水平分屏终端（底部） |
+| `<leader>tv` | normal / terminal | 垂直分屏终端（右侧） |
+| `<leader>tt` | normal / terminal | 切换默认（浮窗）终端 |
 | `<esc>` / `jk` | terminal | 退出 terminal mode 到 normal mode |
-| `<C-h/j/k/l>` | terminal | 退出 terminal mode并移到对应窗口 |
+| `<C-h/j/k/l>` | terminal | 退出 terminal mode 并移到对应窗口 |
 
 ## 会话
 
@@ -80,3 +80,10 @@ toggleterm 提供持久的浮窗、水平和垂直终端实例。
 | `<leader>ll` | normal | 打开 `nvim-pack.log` |
 | `<leader>lr` | normal | 删除选中插件并提示 `:restart` 按锁文件重装 |
 | `<leader>lx` | normal | 从磁盘删除选中插件（未从 `vim.pack.add()` 移除仍会再装） |
+
+## Profiler
+
+| 快捷键 | 模式 | 说明 |
+| --- | --- | --- |
+| `<leader>dpp` | normal | 切换 snacks profiler |
+| `<leader>dph` | normal | 切换 profiler 高亮 |

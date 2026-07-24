@@ -16,6 +16,8 @@
 | `<leader>y` | normal / visual | yank 到系统剪贴板 |
 | `<leader>Y` | normal | yank 当前行到系统剪贴板 |
 | `<leader>p` | normal / visual | 从系统剪贴板粘贴 |
+| `<leader>.` | normal | 切换 scratch buffer |
+| `<leader>n` | normal | 通知历史 |
 
 ## 窗口与分屏
 
@@ -41,9 +43,8 @@ LSP 的 normal 模式签名帮助使用 `<leader>ck`，不占用 `<C-k>`。
 
 ## 滚动
 
-以下映射由 neoscroll 接管；nvim-tree、aerial、Trouble、toggleterm、
-Lazygit 和 fzf 窗口会被排除。`<leader>uS` 可临时关闭平滑滚动，回退到原生
-翻页。
+以下映射由 snacks.scroll 接管。`<leader>uS` 可临时关闭平滑滚动，回退到
+原生翻页。
 
 | 快捷键 | 模式 | 说明 |
 | --- | --- | --- |
@@ -52,7 +53,8 @@ Lazygit 和 fzf 窗口会被排除。`<leader>uS` 可临时关闭平滑滚动，
 
 ## UI toggle
 
-运行时开关，不持久化；重启后恢复默认。实现见 `lua/core/toggles.lua`。
+运行时开关，不持久化；重启后恢复默认。实现见 `lua/core/toggles.lua`
+（`Snacks.toggle`）。
 
 | 快捷键 | 模式 | 作用域 | 说明 |
 | --- | --- | --- | --- |
@@ -63,16 +65,31 @@ Lazygit 和 fzf 窗口会被排除。`<leader>uS` 可临时关闭平滑滚动，
 | `<leader>uh` | normal | buffer | 切换 inlay hints |
 | `<leader>uf` | normal | session | 切换保存时格式化（启动默认关闭） |
 | `<leader>uS` | normal | session | 切换平滑滚动（启动默认开启） |
+| `<leader>ul` | normal | window | 切换行号 |
+| `<leader>uc` | normal | window | 切换 conceallevel |
+| `<leader>uT` | normal | buffer | 切换 Treesitter 高亮 |
+| `<leader>ug` | normal | global | 切换缩进线 |
+| `<leader>uD` | normal | global | 切换 dim |
+| `<leader>ub` | normal | global | 切换 dark / light background |
+| `<leader>uz` | normal | session | 切换 Zen 模式 |
+| `<leader>uZ` | normal | session | 切换 Zoom |
+| `<leader>u.` | normal | session | 选择 scratch buffer |
+| `<leader>un` | normal | session | 关闭全部通知 |
 
-每个开关会 `notify` 当前新状态。`<leader>uf` 与 `:FormatEnable` /
-`:FormatDisable` 共用 `vim.g.user_format_on_save`。
+`<leader>uf` 与 `:FormatEnable` / `:FormatDisable` 共用
+`vim.g.user_format_on_save`。
 
 ## Buffer
+
+关 buffer 使用 `Snacks.bufdelete`，避免侧栏 explorer 被撑满整屏。
+`<leader>bo` 使用 `Snacks.bufdelete.other()`（关其他 listed buffer），与
+旧 BufferLineCloseOthers 语义接近但不依赖 bufferline 分组。
 
 | 快捷键 | 模式 | 说明 |
 | --- | --- | --- |
 | `<S-l>` / `<S-h>` | normal | 下 / 上一个 buffer |
-| `<leader>bd` | normal | 删除当前 buffer |
+| `<leader>bd` | normal | 删除当前 buffer（保留窗口布局） |
+| `<leader>bD` | normal | 删除当前 buffer 并关闭窗口（`:bd`） |
 | `<leader>1` ... `<leader>9` | normal | 跳到第 N 个 buffer |
 | `<leader>bp` | normal | 切换当前 buffer 的 pin |
 | `<leader>bP` | normal | 关闭所有未 pin 的 buffer |

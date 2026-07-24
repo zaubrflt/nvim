@@ -36,8 +36,6 @@ aerial.setup({
 
 local map = vim.keymap.set
 map('n', '<leader>O', '<cmd>AerialToggle!<cr>', { desc = 'Outline: toggle sidebar' })
-map('n', '<leader>fo', function()
-  -- Fuzzy search the outline of the current buffer with fzf-lua's UI.
-  local ok_fzf, _ = pcall(require, 'fzf-lua')
-  if ok_fzf then vim.cmd('AerialNavToggle') else vim.cmd('AerialToggle') end
-end, { desc = 'Find: outline (current buffer)' })
+map('n', '<leader>fo', '<cmd>AerialNavToggle<cr>', {
+  desc = 'Find: outline (current buffer)',
+})

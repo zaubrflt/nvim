@@ -26,8 +26,11 @@ wk.add({
   { '<leader>b',  group = 'Buffer'                },
   { '<leader>c',  group = 'Code/Diagnostics'      },
   { '<leader>d',  group = 'Debug'                 },
+  { '<leader>dp', group = 'Debug: profiler'       },
   { '<leader>f',  group = 'File/Find/Format'      },
-  { '<leader>fg', group = 'Find: git'             }, -- nested under <leader>f
+  -- Do NOT register <leader>fg as a which-key group: it would shadow live grep
+  -- on the same keys. Git pickers stay as <leader>fgs/fgc/fgC/fgb (type the
+  -- fourth key before timeoutlen, or wait for grep).
   { '<leader>g',  group = 'Git'                   },
   { '<leader>l',  group = 'Pack'                  }, -- vim.pack (LazyVim <leader>l letter)
   { '<leader>r',  group = 'Refactor'              },
@@ -37,4 +40,5 @@ wk.add({
   { '<leader>u',  group = 'UI'                    },
   -- Note: mini.surround registers `gs` as a group automatically; do NOT add
   -- it here too or which-key will warn about duplicate mappings.
+  -- `<leader>.` scratch has no letter group; single-key maps are not registered.
 })

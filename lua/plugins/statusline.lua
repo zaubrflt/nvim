@@ -42,7 +42,7 @@ lualine.setup({
     section_separators   = { left = '',  right = ''  },
     globalstatus = true,                        -- matches opt.laststatus = 3
     disabled_filetypes = {
-      statusline = { 'NvimTree', 'aerial', 'dap-repl', 'dapui_scopes',
+      statusline = { 'snacks_picker_list', 'aerial', 'dap-repl', 'dapui_scopes',
                      'dapui_breakpoints', 'dapui_stacks', 'dapui_watches',
                      'dapui_console' },
     },
@@ -62,5 +62,5 @@ lualine.setup({
     lualine_y = { 'progress' },
     lualine_z = { 'location' },
   },
-  extensions = { 'nvim-tree', 'aerial', 'fzf', 'lazy', 'quickfix', 'man' },
+  extensions = { 'aerial', 'lazy', 'quickfix', 'man' },
 })

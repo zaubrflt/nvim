@@ -7,6 +7,7 @@ vim.g.maplocalleader = ' '
 require('core.options')
 require('core.keymaps')
 require('core.autocmds')
-require('core.toggles')
 require('core.pack')
 require('plugins')
+-- Snacks.toggle maps need snacks.setup(); keep after plugins.
+require('core.toggles')

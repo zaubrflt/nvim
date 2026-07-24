@@ -1,7 +1,5 @@
 -- bufferline.nvim - tabline visualisation of <S-h>/<S-l> + <leader>bd.
--- We don't add new keymaps here; the existing buffer-navigation keymaps in
--- core/keymaps.lua already cover navigation, this just gives them visual
--- feedback at the top of the screen.
+-- Close commands use Snacks.bufdelete so explorer sidebars are not wiped.
 
 local ok, bufferline = pcall(require, 'bufferline')
 if not ok then
@@ -21,11 +19,16 @@ bufferline.setup({
     show_close_icon          = false,
     separator_style          = 'thin',
     always_show_bufferline   = true,
-    -- Reserve space for nvim-tree on the left so the tabline doesn't overlap
-    -- the file explorer.
+    close_command            = function(n)
+      Snacks.bufdelete(n)
+    end,
+    right_mouse_command      = function(n)
+      Snacks.bufdelete(n)
+    end,
+    -- Reserve space for snacks explorer and aerial on the sides.
     offsets = {
       {
-        filetype   = 'NvimTree',
+        filetype   = 'snacks_picker_list',
         text       = 'File Explorer',
         text_align = 'center',
         separator  = true,
@@ -56,9 +59,11 @@ for i = 1, 9 do
   end, { desc = 'Buffer ' .. i })
 end
 
--- Buffer "close others" / pin / pick.
-map('n', '<leader>bp', '<cmd>BufferLineTogglePin<cr>',          { desc = 'Buffer: toggle pin' })
+-- Buffer pin / close helpers. `bo` uses snacks (keeps explorer layout).
+map('n', '<leader>bp', '<cmd>BufferLineTogglePin<cr>', { desc = 'Buffer: toggle pin' })
 map('n', '<leader>bP', '<cmd>BufferLineGroupClose ungrouped<cr>', { desc = 'Buffer: close non-pinned' })
-map('n', '<leader>bo', '<cmd>BufferLineCloseOthers<cr>',        { desc = 'Buffer: close others' })
-map('n', '<leader>br', '<cmd>BufferLineCloseRight<cr>',         { desc = 'Buffer: close to right' })
-map('n', '<leader>bl', '<cmd>BufferLineCloseLeft<cr>',          { desc = 'Buffer: close to left' })
+map('n', '<leader>bo', function()
+  Snacks.bufdelete.other()
+end, { desc = 'Buffer: close others' })
+map('n', '<leader>br', '<cmd>BufferLineCloseRight<cr>', { desc = 'Buffer: close to right' })
+map('n', '<leader>bl', '<cmd>BufferLineCloseLeft<cr>', { desc = 'Buffer: close to left' })

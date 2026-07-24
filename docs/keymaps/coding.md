@@ -56,6 +56,7 @@ Trouble 的诊断列表见 [工具快捷键](tools.md#trouble)。
 | `<C-k>` | insert | 函数签名 |
 | `<leader>ck` | normal | 函数签名 |
 | `<leader>rn` | normal | 重命名符号 |
+| `<leader>cR` | normal | 重命名文件（Snacks.rename，LSP 集成） |
 | `<leader>ca` | normal / visual | Code action |
 | `<leader>cs` | normal | 文档符号 |
 | `<leader>cw` | normal | 工作区符号 |
@@ -65,7 +66,7 @@ insert 模式的 `<C-k>` 与 blink.cmp preset 同名，用途相同（显示签�
 normal 模式使用 `<leader>ck`，避免覆盖 smart-splits 的向上切窗。
 inlay hints 用 `<leader>uh` 切换，见 [UI toggle](general.md#ui-toggle)。
 
-LSP 的 fzf-lua 查询快捷键见 [导航快捷键](navigation.md#fzf-lua)。
+LSP 的 snacks picker 查询快捷键见 [导航快捷键](navigation.md#snacks-picker)。
 
 ## 格式化
 

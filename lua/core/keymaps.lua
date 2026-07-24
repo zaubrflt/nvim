@@ -23,7 +23,11 @@ map('n', '<C-Right>', '<cmd>vertical resize +2<cr>', { desc = 'Resize right' })
 -- Buffer navigation.
 map('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next buffer' })
 map('n', '<S-h>', '<cmd>bprevious<cr>', { desc = 'Prev buffer' })
-map('n', '<leader>bd', '<cmd>bdelete<cr>', { desc = 'Delete buffer' })
+-- Buffer delete via snacks so sidebars (explorer) keep their layout.
+map('n', '<leader>bd', function()
+  Snacks.bufdelete()
+end, { desc = 'Delete buffer' })
+map('n', '<leader>bD', '<cmd>bd<cr>', { desc = 'Delete buffer and window' })
 
 -- Stay in visual mode after indent.
 map('v', '<', '<gv', { desc = 'Indent left' })

@@ -16,6 +16,8 @@ AstroNvim 或 NvChad 为目标。架构边界与明确不采用的方案见
 ## 架构迁徙
 
 - [snacks.nvim 迁徙计划（对齐 LazyVim）](improvements/snacks-migration.md)
+  （已落地；方案与[阶段验收步骤](improvements/snacks-migration.md#阶段验收步骤)
+  仍以该文档为唯一详细来源）
 
 ## 工作流
 
@@ -26,6 +28,5 @@ AstroNvim 或 NvChad 为目标。架构边界与明确不采用的方案见
 
 - [Markdown buffer 内渲染](improvements/editor-experience.md#markdown-buffer-内渲染)
 - [Harpoon v2](improvements/editor-experience.md#harpoon-v2)
-- [`vim.ui.input()` 界面](improvements/editor-experience.md#vimuiinput-界面)
 - [启动性能基准](improvements/quality.md#启动性能基准)
 - [CI 与 smoke test](improvements/quality.md#ci-与-smoke-test)

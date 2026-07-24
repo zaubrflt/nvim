@@ -77,7 +77,7 @@ parser 列表位于 `lua/plugins/treesitter.lua` 的 `ensure_installed`：
   [快捷键索引](KEYMAPS.md)。
 - 新增 `<leader>X` 字母前缀时，在 `lua/plugins/whichkey.lua` 注册 group。
 - 同步 README 的高层入口只在导航结构发生变化时进行，不复制完整键表。
-- 不要重复绑定 smart-splits 或 neoscroll 已接管的按键。
+- 不要重复绑定 smart-splits 或 snacks.scroll 已接管的按键。
 
 ## 验证清单
 
@@ -105,11 +105,14 @@ parser 列表位于 `lua/plugins/treesitter.lua` 的 `ensure_installed`：
 
 ### 编辑器功能
 
-- `<leader>e` 能切换文件树。
-- fzf-lua 能查找文件和执行 live grep。
+- `<leader>e` 能切换文件树（snacks explorer）。
+- snacks picker 能查找文件和执行 live grep。
 - gitsigns 在 Git 仓库中显示 hunk 标记。
 - `<C-h/j/k/l>` 能在分屏间导航。
 - `<leader>` 能显示 which-key 分组。
+
+snacks 迁徙专项（分阶段复验、快速冒烟）见
+[阶段验收步骤](improvements/snacks-migration.md#阶段验收步骤)。
 
 ### 平台记录
 

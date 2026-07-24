@@ -15,7 +15,8 @@ LazyVim 默认接线**，插件管理与硬性基线仍遵守本仓库约束：
   `false`。
 - 新逻辑放在独立 `lua/plugins/snacks.lua`（及必要的拆分），不堆进 `init.lua`。
 
-本文件是迁徙的**唯一详细方案来源**。落地时按阶段改代码与文档；完成后把本项从
+本文件是迁徙的**唯一详细方案来源**（含[阶段验收步骤](#阶段验收步骤)）。落地时按
+阶段改代码与文档；完成后把本项从
 [计划实现](../STATUS.md#计划实现)移到[已实现](../STATUS.md#已实现)，并修订
 [架构](../ARCHITECTURE.md) 中「明确不采用 snacks」的表述。
 
@@ -326,3 +327,109 @@ smart-splits 不冲突（按 snacks + smart-splits 实测调整）。
 6. 阶段 E 清理与验证。
 
 实现任一阶段前，仍须按 AGENTS 约定：说明拟改文件并取得明确许可后再动代码。
+
+## 阶段验收步骤
+
+每阶段结束都应能稳定日常使用后再进入下一阶段。一次落地后也可按本节复验。
+通用基线核对见 [维护与验证](../MAINTENANCE.md#验证清单)；本节只覆盖 snacks
+迁徙专项。
+
+### 阶段 0：文档准入
+
+- [ARCHITECTURE](../ARCHITECTURE.md) 已从「明确不采用」移除 snacks，选型写明
+  UX 中枢 = snacks。
+- [STATUS](../STATUS.md) / [IMPROVEMENTS](../IMPROVEMENTS.md) 与本文件状态一致。
+- 本阶段无代码行为变化。
+
+### 阶段 A：接入 + 无冲突增量
+
+**验收状态（Linux，2026-07-24）：已通过。**
+
+1. `:checkhealth snacks` 通过。
+2. 侧栏开着时 `<leader>bd`：标签消失，explorer **不全屏**。
+3. 未保存 buffer 关闭时出现 Yes/No/Cancel。
+4. `vim.notify` 走 notifier；`vim.ui.input`（如 `<leader>Ss` 命名会话）可用
+   snacks.input（需在正常 TUI 会话中测；`UIEnter` 后生效）。
+5. 打开大文件时 bigfile 降级可感知，或至少无报错。
+6. `:lua =vim.g.user_format_on_save` 启动值为 `false`。
+
+### 阶段 B：scroll / indent / toggle
+
+**验收状态（Linux，2026-07-24）：已通过。**
+
+1. `<C-f/b/d/u>` 平滑滚动；`<leader>uS` 可关回原生翻页。
+2. 缩进线可见；`ii` / `ai`、`[i` / `]i`（snacks.scope）正常。
+3. `<leader>u*` 可切换；`<leader>uf` 默认关，开后再关一次确认。
+4. 启动与 `:messages` 无 neoscroll / mini.indentscope 残留报错。
+
+### 阶段 C1：Picker
+
+**验收状态（Linux，2026-07-24）：已通过**（含修复 which-key「Find: git」
+分组遮挡 `<leader>fg` 后的复验；Git picker 为 `fgs` / `fgc` / `fgC` / `fgb`）。
+
+1. `<leader>ff` 大仓库文件搜索、`<leader>fg` live grep 可接受。
+2. `<leader>fa` / LSP code action 的 `vim.ui.select` 弹出 snacks picker。
+3. `<leader>f.` resume、`<leader>ft` TODO 搜索可用。
+4. [导航快捷键](../keymaps/navigation.md) 主路径表述为 snacks picker，而非
+   fzf-lua。
+
+### 阶段 C2：Explorer
+
+**验收状态（Linux，2026-07-24）：已通过。**
+
+1. `<leader>e` 开关树；`<leader>fe` 定位当前文件（折叠全部在 explorer 内用
+   `Z`，无独立 `<leader>fc`）。
+2. 从树打开文件；bufferline offset 不与标签重叠。实机 filetype 预期为
+   `snacks_picker_list`；不符时用 `:lua =vim.bo.filetype` 核对后改
+   `lua/plugins/bufferline.lua`。
+3. 侧栏开着再测 `<leader>bd`，布局仍正确。
+4. 会话保存 / 恢复不把 explorer 当普通文件 buffer。
+
+### 阶段 C3：Terminal + Lazygit
+
+**验收状态（Linux，2026-07-25）：已通过**（含为 `th`/`tv` 分配独立
+`count`，避免与浮窗终端共用实例）。
+
+1. `<C-\>` / `<leader>tf` 浮窗；`<leader>th` / `tv` 分屏终端。
+2. 终端内 `<esc>` / `jk` 退出 insert；`<C-h/j/k/l>` 能离开且不与
+   smart-splits 死锁。
+3. `<leader>gg` / `gG` / `gl` / `gL`（需 `PATH` 有 `lazygit`）。
+4. 无 toggleterm / lazygit.nvim 加载错误。
+
+### 阶段 D：增值（本仓库 dashboard 默认关闭）
+
+**验收状态（Linux，2026-07-25）：已通过**（`<leader>go` 的 `desc` 由
+`Git: browse in browser` 改为 `Git: browse`，避免 which-key 截成 “brows”）。
+
+| 项 | 步骤 |
+| --- | --- |
+| gitbrowse | `<leader>go` 打开远端；不占用 `<leader>gB`（blame） |
+| zen / zoom | `<leader>uz` / `<leader>uZ` |
+| scratch | `<leader>.` 开关；`<leader>u.` 选择列表 |
+| 文件 rename | `<leader>cR`（与 `<leader>rn` 符号 rename 区分） |
+| profiler | `<leader>dpp` / `<leader>dph` |
+| dashboard | **应仍关闭**；无文件参数启动走 resession，不出现 snacks 启动页 |
+
+### 阶段 E：清理与收口
+
+**验收状态（Linux，2026-07-25）：已通过。**
+
+1. 代码无残留 `require`：`fzf-lua` / `nvim-tree` / `toggleterm` / `neoscroll` /
+   `lazygit`（插件）/ `mini.indentscope`。
+2. `nvim-pack-lock.json` 含 snacks、无上述旧插件（仅由 `vim.pack` 自动更新，
+   勿手改）。
+3. 按 [维护验证清单](../MAINTENANCE.md#验证清单) 完整核对一次。
+4. 再次确认 format-on-save 默认关闭。
+
+### 快速冒烟（全阶段一次过）
+
+在真实 TUI 会话中依次确认：
+
+```text
+:lua =vim.g.user_format_on_save   → false
+:checkhealth snacks
+<leader>e → 开文件 → <leader>bd
+<leader>ff / <leader>fg
+<C-\> 终端 → <C-h> 离开
+<leader>ur / <leader>uf / <leader>uS
+```

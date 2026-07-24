@@ -63,7 +63,7 @@ snacks.nvim：
 
 ### 使用场景
 
-Harpoon 适合在少数高频文件间固定跳转，与 fzf-lua 的全量搜索互补。只有实际
+Harpoon 适合在少数高频文件间固定跳转，与 snacks picker 的全量搜索互补。只有实际
 使用中频繁需要固定 4–5 个文件时再引入。
 
 ### 建议键位
@@ -83,19 +83,14 @@ Harpoon 适合在少数高频文件间固定跳转，与 fzf-lua 的全量搜索
 
 ## vim.ui.input 界面
 
-### 缺口
+### 状态
 
-fzf-lua 已接管 `vim.ui.select()`，但 DAP 条件断点、log point 和命名会话所用
-的 `vim.ui.input()` 仍是原生界面。
+**已由 snacks.input 吸收**（见 [snacks 迁徙](snacks-migration.md)）。不再计划
+引入 dressing.nvim。
 
-### 建议
-
-- 仅在确有体验问题时引入 `stevearc/dressing.nvim`。
-- 只启用 input 能力。
-- 保持 fzf-lua 继续处理 select。
-- 不为此引入 noice.nvim 或 snacks.nvim。
+snacks picker 同时接管 `vim.ui.select()`（code action 等）。
 
 ### 验收
 
-- DAP 与 session 输入框可用。
-- `vim.ui.select()` 不被 dressing 接管。
+- DAP 与 session 输入框使用 snacks.input。
+- `vim.ui.select()` 由 snacks picker 处理。

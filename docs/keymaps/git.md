@@ -26,15 +26,20 @@ gitsigns 在 sign column 中以彩色竖线显示当前 buffer 相对 Git 索引
 
 ## Lazygit
 
-Lazygit 负责 commit、rebase、分支、冲突、stash、push/pull 等仓库级操作。
-系统 `PATH` 中没有 `lazygit` 时，这些映射不会注册。
+Lazygit 负责 commit、rebase、分支、冲突、stash、push/pull 等仓库级操作，
+通过 `Snacks.lazygit` 打开。系统 `PATH` 中没有 `lazygit` 时，这些映射不会
+注册。
 
 | 快捷键 | 模式 | 说明 |
 | --- | --- | --- |
-| `<leader>gg` | normal | 在仓库根打开 Lazygit |
-| `<leader>gG` | normal | 打开当前文件所在仓库 |
+| `<leader>gg` | normal | 在 cwd 打开 Lazygit |
+| `<leader>gG` | normal | 在当前文件目录打开 Lazygit |
 | `<leader>gl` | normal | 仓库 log |
 | `<leader>gL` | normal | 当前文件 log |
+| `<leader>go` | normal / visual | 浏览器打开当前文件 / 选区（gitbrowse） |
 
 Lazygit 浮窗内部使用其自身键位。常用：`c` commit、`a` stage all、
 `r` rebase、`b` branches、`P` push、`p` pull。
+
+文件重命名（LSP 集成）见 `<leader>cR`（`Snacks.rename`），与符号 rename
+`<leader>rn` 区分。

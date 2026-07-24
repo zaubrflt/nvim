@@ -23,9 +23,9 @@
 | `codelldb` | C/C++/Rust 调试 | 调试 |
 | `tree-sitter` CLI ≥ 0.26.1 | 编译 Treesitter parser | Treesitter |
 | C 编译器或 `zig` | 编译 Treesitter parser | Treesitter |
-| `fzf` | fzf-lua 后端 | 模糊查找 |
-| `ripgrep`（`rg`） | live grep 后端 | 内容搜索 |
-| `lazygit` | 仓库级 Git TUI | Lazygit 快捷键 |
+| `ripgrep`（`rg`） | snacks picker live grep / 文件搜索 | 模糊查找与内容搜索 |
+| `fd`（可选） | snacks picker 文件枚举加速 | 可选 |
+| `lazygit` | 仓库级 Git TUI（Snacks.lazygit） | Lazygit 快捷键 |
 | `stylua` | Lua 格式化 | 可选 |
 | `xclip` 或 `wl-clipboard` | 系统剪贴板 | Linux |
 
@@ -38,7 +38,7 @@
 ```bash
 sudo apt update
 sudo apt install -y git build-essential clangd clang-format clang-tidy \
-                    fzf ripgrep xclip wl-clipboard
+                    ripgrep xclip wl-clipboard
 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 rustup component add rust-analyzer rustfmt clippy
@@ -54,7 +54,7 @@ codelldb 并加入 `PATH`。Debian/Ubuntu 仓库中的 lazygit 可能较旧，�
 
 ```bash
 sudo pacman -S --needed git base-devel clang llvm rustup tree-sitter-cli \
-                       fzf ripgrep lazygit xclip wl-clipboard codelldb
+                       ripgrep lazygit xclip wl-clipboard codelldb
 rustup default stable
 rustup component add rust-analyzer rustfmt clippy
 ```
@@ -63,7 +63,7 @@ rustup component add rust-analyzer rustfmt clippy
 
 ```bash
 sudo dnf install -y git clang clang-tools-extra rustup tree-sitter-cli \
-                    fzf ripgrep lazygit xclip wl-clipboard
+                    ripgrep lazygit xclip wl-clipboard
 rustup-init -y
 rustup component add rust-analyzer rustfmt clippy
 ```
@@ -73,7 +73,7 @@ codelldb 可从发行包安装，也可从 vscode-lldb 扩展中取用。
 ### macOS
 
 ```bash
-brew install neovim git llvm rustup-init tree-sitter fzf ripgrep lazygit
+brew install neovim git llvm rustup-init tree-sitter ripgrep lazygit
 rustup-init -y
 rustup component add rust-analyzer rustfmt clippy
 brew install --cask codelldb

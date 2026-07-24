@@ -22,9 +22,9 @@ resession.setup({
     local buftype   = vim.bo[bufnr].buftype
     local filetype  = vim.bo[bufnr].filetype
     if buftype ~= '' and buftype ~= 'acwrite' then return false end
-    if filetype == 'NvimTree' or filetype == 'aerial' or filetype == 'trouble'
+    if filetype == 'snacks_picker_list' or filetype == 'aerial' or filetype == 'trouble'
         or filetype:match('^dapui_') or filetype == 'dap-repl'
-        or filetype == 'toggleterm' or filetype == 'lazygit' then
+        or filetype == 'snacks_terminal' or filetype == 'lazygit' then
       return false
     end
     return vim.api.nvim_buf_get_name(bufnr) ~= ''

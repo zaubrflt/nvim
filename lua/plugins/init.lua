@@ -13,6 +13,9 @@ vim.pack.add({
   -- Colorscheme.
   { src = 'https://github.com/AlexvZyl/nordic.nvim' },
 
+  -- UX hub (setup early; LazyVim-aligned module set).
+  { src = 'https://github.com/folke/snacks.nvim' },
+
   -- Syntax highlighting (main branch is required for Neovim 0.12).
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter', version = 'main' },
 
@@ -33,16 +36,11 @@ vim.pack.add({
   { src = 'https://github.com/rcarriga/nvim-dap-ui' },
   { src = 'https://github.com/theHamsta/nvim-dap-virtual-text' },
 
-  -- Git integration.
+  -- Git integration (repo TUI via Snacks.lazygit; needs system lazygit).
   { src = 'https://github.com/lewis6991/gitsigns.nvim' },
-  { src = 'https://github.com/kdheepak/lazygit.nvim' },
 
-  -- File explorer + icons.
+  -- Icons for statusline / bufferline / snacks picker.
   { src = 'https://github.com/nvim-tree/nvim-web-devicons' },
-  { src = 'https://github.com/nvim-tree/nvim-tree.lua' },
-
-  -- Fuzzy finder (uses the system `fzf` binary as backend).
-  { src = 'https://github.com/ibhagwan/fzf-lua' },
 
   -- Statusline.
   { src = 'https://github.com/nvim-lualine/lualine.nvim' },
@@ -56,9 +54,6 @@ vim.pack.add({
 
   -- Treesitter-aware jump motions.
   { src = 'https://github.com/folke/flash.nvim' },
-
-  -- Smooth scrolling for page / half-page movement.
-  { src = 'https://github.com/karb94/neoscroll.nvim' },
 
   -- Code outline / symbol sidebar.
   { src = 'https://github.com/stevearc/aerial.nvim' },
@@ -74,7 +69,6 @@ vim.pack.add({
 
   -- Editing add-ons in the mini.* family (one repo each).
   { src = 'https://github.com/echasnovski/mini.ai' },
-  { src = 'https://github.com/echasnovski/mini.indentscope' },
 
   -- Multiplexer-aware split navigation (tmux/wezterm/kitty).
   { src = 'https://github.com/mrjones2014/smart-splits.nvim' },
@@ -88,27 +82,22 @@ vim.pack.add({
   -- Buffer tabline (visualises <S-h>/<S-l> / <leader>bd).
   { src = 'https://github.com/akinsho/bufferline.nvim' },
 
-  -- Floating / split terminals managed from inside Neovim.
-  { src = 'https://github.com/akinsho/toggleterm.nvim' },
-
   -- Keymap discoverability popup (LazyVim-style <leader> menu).
   { src = 'https://github.com/folke/which-key.nvim', version = vim.version.range('^3.0.0') },
 })
 
--- Order matters: colorscheme first, then features.
+-- Order matters: colorscheme first, snacks early, which-key last.
 require('plugins.colorscheme')
+require('plugins.snacks')
 require('plugins.treesitter')
 require('plugins.completion')
 require('plugins.lsp')
 require('plugins.format')
 require('plugins.dap')
 require('plugins.git')
-require('plugins.lazygit')
-require('plugins.filetree')
 require('plugins.picker')
 require('plugins.statusline')
 require('plugins.editing')
-require('plugins.scroll')
 require('plugins.motion')
 require('plugins.outline')
 require('plugins.trouble')
@@ -116,5 +105,4 @@ require('plugins.splits')
 require('plugins.todo')
 require('plugins.session')
 require('plugins.bufferline')
-require('plugins.terminal')
 require('plugins.whichkey')

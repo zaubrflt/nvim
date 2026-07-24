@@ -4,33 +4,33 @@
 
 ## 文件树
 
+`<leader>e` 打开 snacks explorer（picker 侧栏）。`<leader>fe` 在树中定位当前
+文件。折叠全部节点在 explorer 内用 `Z`（不再单独映射 `<leader>fc`）。
+
 | 快捷键 | 模式 | 说明 |
 | --- | --- | --- |
-| `<leader>e` | normal | 切换 nvim-tree |
+| `<leader>e` | normal | 切换 snacks explorer |
 | `<leader>fe` | normal | 在树中定位当前文件 |
-| `<leader>fc` | normal | 折叠所有树节点 |
 
-nvim-tree 内使用其默认键位。常用：
+explorer 内常用键位（完整见 snacks explorer 文档）：
 
 | 快捷键 | 说明 |
 | --- | --- |
-| `g?` | 查看完整帮助 |
-| `<CR>` / `o` | 在已有编辑窗口打开文件或目录 |
-| `<C-v>` | 垂直分屏打开 |
-| `<C-x>` | 水平分屏打开 |
-| `<C-t>` | 新 tab 打开 |
-| `a` | 新建文件或目录 |
+| `<CR>` / `l` | 打开文件或展开目录 |
+| `h` | 折叠目录 |
+| `a` | 新建文件或目录（目录以 `/` 结尾） |
 | `d` | 删除 |
 | `r` | 重命名 |
-| `x` / `c` / `p` | 剪切 / 复制 / 粘贴 |
-| `R` | 刷新 |
+| `m` / `c` | 移动 / 复制选中项到当前目录 |
+| `y` / `p` | yank 路径 / 粘贴 |
+| `H` / `I` | 切换隐藏 / ignore 文件 |
+| `Z` | 折叠所有目录 |
+| `<C-/>` | 在当前目录 grep |
 
-已有多个编辑窗口时，打开文件可能先弹出 window picker 选择目标窗口。
+## snacks picker
 
-## fzf-lua
-
-文件查找依赖系统 `fzf`，live grep 还依赖 `ripgrep`。fzf-lua 同时接管
-`vim.ui.select()`，因此 code action 等选择列表也使用相同界面。
+文件查找与 live grep 依赖系统 `ripgrep`（及可选 `fd`）。snacks picker 同时
+接管 `vim.ui.select()`，因此 code action 等选择列表也使用相同界面。
 
 ### 文件与内容
 
@@ -38,19 +38,22 @@ nvim-tree 内使用其默认键位。常用：
 | --- | --- | --- |
 | `<leader>ff` | normal | 查找 cwd 下的文件 |
 | `<leader>fg` | normal | cwd live grep |
-| `<leader>fG` | normal | 当前 buffer live grep |
-| `<leader>fw` | normal | grep 光标下 word |
+| `<leader>fG` | normal | 已打开 buffer grep |
+| `<leader>fw` | normal / visual | grep 光标下 word 或选区 |
 | `<leader>fW` | normal | grep 光标下 WORD |
-| `<leader>fw` | visual | grep 当前选区 |
 | `<leader>fb` | normal | 已打开 buffer |
 | `<leader>fr` | normal | 最近文件 |
 | `<leader>fl` | normal | 当前 buffer 行 |
-| `<leader>fL` | normal | 所有已打开 buffer 的行 |
+| `<leader>fL` | normal | 所有已打开 buffer 的行 / grep |
 | `<leader>fh` | normal | Help tags |
 | `<leader>fk` | normal | 已注册 keymap |
 | `<leader>f:` | normal | 命令历史 |
 | `<leader>f/` | normal | 搜索历史 |
 | `<leader>f.` | normal | 恢复上一次 picker |
+
+`<leader>fg` 是 live grep，不要注册 which-key 的 `fg` 分组（会把它显示成
+Find: git 并挡住 grep）。Git picker 键以 `fg` 为前缀（见下），需在
+`timeoutlen` 内继续输入第四键，否则触发 grep。
 
 ### LSP
 
@@ -73,9 +76,6 @@ nvim-tree 内使用其默认键位。常用：
 | `<leader>fgC` | 当前 buffer commits |
 | `<leader>fgb` | Git branches |
 
-picker 内常用 `<Tab>` 多选、`<C-q>` 把结果送入 quickfix、
-`<C-d>/<C-u>` 滚动预览。
-
 ## 代码大纲
 
 aerial 优先使用 LSP，随后回退到 Treesitter、Markdown 或 man。
@@ -83,7 +83,7 @@ aerial 优先使用 LSP，随后回退到 Treesitter、Markdown 或 man。
 | 快捷键 | 位置 | 说明 |
 | --- | --- | --- |
 | `<leader>O` | 普通 buffer | 切换大纲侧栏 |
-| `<leader>fo` | 普通 buffer | 使用 Aerial Nav 查找当前文件符号 |
+| `<leader>fo` | 普通 buffer | Aerial Nav 查找当前文件符号 |
 | `{` / `}` | aerial 侧栏 | 上 / 下一个符号 |
 | `<CR>` | aerial 侧栏 | 跳转到符号 |
 
@@ -142,16 +142,26 @@ mini.ai 扩展 `a` / `i` 文本对象，并与 Treesitter 文本对象共存。
 | `ic` / `ac` | 内 / 外 class |
 | `io` / `ao` | 内 / 外 block、loop 或 conditional |
 | `ia` / `aa` | 内 / 外参数 |
-| `ii` / `ai` | 内 / 外缩进 scope |
 
-这些文本对象跟在 visual 或 operator 后使用，例如 `vif`、`dac`、`cii`。
+这些文本对象跟在 visual 或 operator 后使用，例如 `vif`、`dac`。
 
-### mini.indentscope
+### snacks.indent / snacks.scope
+
+缩进线由 snacks.indent 绘制；scope 文本对象与跳转由 snacks.scope 提供
+（替代 mini.indentscope）。
 
 | 快捷键 | 模式 | 说明 |
 | --- | --- | --- |
 | `[i` / `]i` | normal | 当前缩进 scope 顶 / 底 |
 | `ii` / `ai` | visual / operator-pending | 内 / 外缩进 scope |
+
+### snacks.words
+
+LSP 引用高亮与跳转：
+
+| 快捷键 | 模式 | 说明 |
+| --- | --- | --- |
+| `]]` / `[[` | normal / terminal | 下 / 上一个 LSP 引用 |
 
 guess-indent 没有快捷键；它在读取文件后自动检测 buffer 的缩进风格。
 

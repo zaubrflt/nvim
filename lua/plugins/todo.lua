@@ -1,5 +1,5 @@
 -- todo-comments.nvim - highlight TODO/FIXME/HACK/NOTE/WARN/PERF in comments,
--- and provide jump / search helpers backed by Trouble or fzf-lua.
+-- and provide jump / search helpers backed by Trouble or snacks.picker.
 
 local ok, todo = pcall(require, 'todo-comments')
 if not ok then
@@ -35,23 +35,12 @@ local map = vim.keymap.set
 map('n', ']t', function() todo.jump_next() end, { desc = 'Next TODO comment' })
 map('n', '[t', function() todo.jump_prev() end, { desc = 'Prev TODO comment' })
 
--- Workspace-level search.
+-- Workspace-level search via snacks picker grep over TODO/FIXME keywords.
 map('n', '<leader>ft', function()
-  local ok_fzf, fzf = pcall(require, 'fzf-lua')
-  if ok_fzf then
-    -- todo-comments stores its keyword regex pattern in opts; reuse it via
-    -- a live grep search against ripgrep so we get the full multi-keyword set.
-    fzf.grep({
-      search = [[\b(KEYWORDS):]],
-      no_esc = true,
-      rg_glob = false,
-      rg_opts = '--hidden --column --line-number --no-heading --color=always '
-        .. "-e [[:space:]]*(TODO|FIXME|HACK|WARN|PERF|NOTE|FIX|BUG|ISSUE|XXX|OPTIM|TEST)[[:space:]]*:?",
-      prompt = 'TODO ❯ ',
-    })
-  else
-    vim.cmd('TodoQuickFix')
-  end
+  Snacks.picker.grep({
+    search = [[\b(TODO|FIXME|HACK|WARN|WARNING|PERF|NOTE|FIX|BUG|ISSUE|XXX|OPTIM|TEST)\b]],
+    args = { '--glob', '!.git/' },
+  })
 end, { desc = 'Find: TODO / FIXME (workspace)' })
 
 -- Send TODOs to Trouble (already wired in trouble.lua via <leader>xt).

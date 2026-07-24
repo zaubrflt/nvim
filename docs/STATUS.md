@@ -19,26 +19,29 @@
 - clangd `--clang-tidy` 与 rust-analyzer clippy 提供静态分析。
 - Treesitter `main` 分支提供高亮、折叠、缩进、文本对象和上下文。
 - Nordic 是默认主题。
-- gitsigns 与 lazygit 提供 buffer 级和仓库级 Git 能力；gitsigns 使用彩色竖线区分新增 / 修改 / 删除。
-- nvim-tree 提供文件树。
+- gitsigns 与 Snacks.lazygit 提供 buffer 级和仓库级 Git 能力；gitsigns 使用彩色竖线区分新增 / 修改 / 删除。
+- snacks explorer 提供文件树。
 - 保存格式化默认关闭，支持手动格式化和会话内显式切换。
 - 配置按 core、plugin 和 LSP server 模块拆分。
 
 ### 编辑与导航
 
-- fzf-lua 文件、内容、LSP 和 Git picker，并接管 `vim.ui.select()`。
+- snacks.nvim 作为 UX 中枢（对齐 LazyVim 模块集）：picker、explorer、terminal、
+  lazygit、bufdelete、scroll、indent/scope、notifier、input、words、toggle；
+  dashboard 默认关闭。详见 [snacks 迁徙](improvements/snacks-migration.md)。
+- snacks picker 文件、内容、LSP 和 Git 搜索，并接管 `vim.ui.select()`；键位保留
+  `<leader>f*`。
 - lualine、bufferline 和 which-key。
-- mini.pairs、mini.surround、mini.ai、mini.indentscope。
-- Flash、neoscroll、Aerial 和 smart-splits。
+- mini.pairs、mini.surround、mini.ai。
+- Flash、Aerial 和 smart-splits。
 - `<leader>-` / `<leader>|` 创建水平与垂直分屏。
 - Trouble 与 todo-comments。
-- toggleterm。
 - resession 命名和 branch-scoped 自动会话。
 - Neovim 原生 `gc` / `gcc` 注释能力已记录在快捷键文档。
 - LSP insert 模式用 `<C-k>`、normal 模式用 `<leader>ck` 显示签名，避免覆盖
   smart-splits 的向上切窗。
-- 原生 UI toggle 层（`<leader>u*`）：relative number、wrap、spell、diagnostics、
-  inlay hints、format-on-save、smooth scroll。
+- `Snacks.toggle` UI 层（`<leader>u*`）：relative number、wrap、spell、diagnostics、
+  inlay hints、format-on-save、smooth scroll、zen/zoom 等。
 - `vim.pack` 管理快捷键（`<leader>l*`）：更新、浏览、health、日志、重装与删磁盘副本。
 
 ### 文档
@@ -56,10 +59,6 @@
 
 ## 计划实现
 
-### 优先
-
-- [snacks.nvim 迁徙（对齐 LazyVim）](improvements/snacks-migration.md)
-
 ### 后续
 
 - [自动推断 DAP executable 并复用 launch.json](improvements/project-workflow.md#dap-启动体验)
@@ -69,11 +68,10 @@
 
 - [Markdown buffer 内渲染](improvements/editor-experience.md#markdown-buffer-内渲染)
 - [Harpoon v2](improvements/editor-experience.md#harpoon-v2)
-- [`vim.ui.input()` 界面增强](improvements/editor-experience.md#vimuiinput-界面)（计划由 snacks.input 吸收，见迁徙文档）
 - [启动性能基准](improvements/quality.md#启动性能基准)
 - [CI 与 smoke test](improvements/quality.md#ci-与-smoke-test)
 
 ## 验证状态
 
-仓库没有保存可复现的 Linux / macOS 实机验证结果。完成某个平台的验证后，应按
-[验证清单](MAINTENANCE.md#验证清单)记录实际结果。
+- **Linux（2026-07-24 / 07-25）**：snacks 迁徙阶段 A–E 已实机验收通过（C1：去掉 which-key `fg` 分组；C3：`th`/`tv` 独立 `count`；D：`<leader>go` `desc` 缩短为 `Git: browse`）。专项步骤见 [阶段验收步骤](improvements/snacks-migration.md#阶段验收步骤)。
+- 完整基线核对仍按 [验证清单](MAINTENANCE.md#验证清单)。

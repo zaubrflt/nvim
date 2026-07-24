@@ -17,7 +17,7 @@ splits.setup({
   at_edge = 'wrap',                 -- wrap to the opposite split when already at edge
   cursor_follows_swapped_bufs = true,
   ignored_buftypes = { 'nofile', 'quickfix', 'prompt' },
-  ignored_filetypes = { 'NvimTree', 'aerial', 'trouble' },
+  ignored_filetypes = { 'snacks_picker_list', 'aerial', 'trouble' },
 })
 
 local map = vim.keymap.set
