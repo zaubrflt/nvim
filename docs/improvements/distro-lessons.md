@@ -18,8 +18,9 @@ autocmds 为准。
 - Rust：直接 rust-analyzer（不用 rustaceanvim）
 - 静态分析：clangd `--clang-tidy` + clippy（不用 none-ls）
 - 保存格式化：默认关闭
-- 已明确不采用：snacks / noice / edgy / dashboard / heirline / telescope /
-  base46 / NvChad UI 全家桶等（见 [架构选型](../ARCHITECTURE.md#明确不采用)）
+- 已明确不采用：noice / edgy / heirline / telescope / base46 / NvChad UI
+  全家桶等（见 [架构选型](../ARCHITECTURE.md#明确不采用)）。snacks 见
+  [迁徙计划](snacks-migration.md)。
 
 ---
 
@@ -198,7 +199,7 @@ NvChad **核心插件表不含 DAP**；C++ / Rust 调试与项目任务仍以 La
 | nvim-lspconfig | 仅两个 server，原生足够 |
 | rustaceanvim | 破坏 C++ / Rust 统一调试路径 |
 | none-ls | 格式化与 lint 职责已有归属 |
-| snacks 全家桶 | 范围过大；toggle/scroll/indent 已有替代 |
+| snacks 全家桶 | **已改决策**：计划按 LazyVim 模块集迁入，见 [snacks 迁徙](snacks-migration.md)；仍拒绝 noice/edgy/lazy.nvim |
 | noice / nvim-notify / edgy / dashboard 类 | 收益不清或过重 |
 | heirline | lualine + bufferline 已够 |
 | telescope | 已选 fzf-lua |
@@ -220,15 +221,15 @@ NvChad **核心插件表不含 DAP**；C++ / Rust 调试与项目任务仍以 La
 | 维度 | LazyVim | AstroNvim | NvChad | 对本仓库 |
 |------|---------|-----------|--------|----------|
 | 定位 | 语言 extras 丰富的 IDE 发行版 | 可扩展核心 + Community | UI + 通用编辑骨架 | 只抄配方，不抄依赖图 |
-| UX 中枢 | snacks 极大 | snacks + neo-tree + heirline | base46 + NvChad UI | 继续单点插件 + 原生 API |
+| UX 中枢 | snacks 极大 | snacks + neo-tree + heirline | base46 + NvChad UI | **计划**迁 snacks（见 [snacks 迁徙](snacks-migration.md)）；实现前仍为单点插件 |
 | 语言 / 调试 | extras（clangd / rust / cmake / dap） | 核心通用，语言靠 Community | 核心几乎无 DAP | C++ / Rust 工作流跟 LV/Astro，不跟 NvChad |
 | 格式化默认 | 开 | 开 | 未强制为本仓库基线 | 保持关 |
 | 可移植精华 | root、lang recipes、grug-far | large-buf、sign handlers、事件延迟 | `splitkeep` / `cursorlineopt`、全量 files、term picker | 边角体验可抄；主干仍看 LV/Astro |
 
 **一句话**：最值得搬的是项目根、DAP 启动、clangd 头文件切换、大文件防护、
 项目替换与 Cargo.toml 辅助；NvChad 只补充少量 editor option 与 picker/终端小
-体验。最不该搬的是插件管理器、Mason、rustaceanvim、snacks/noice/base46 UI
-全家桶，以及默认开启 format-on-save。
+体验。snacks 已改为按 [迁徙计划](snacks-migration.md)对齐 LazyVim 接入；仍不搬
+插件管理器、Mason、rustaceanvim、noice/base46 UI，以及默认开启 format-on-save。
 
 ---
 

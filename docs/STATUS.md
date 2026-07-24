@@ -58,7 +58,7 @@
 
 ### 优先
 
-当前无优先项。
+- [snacks.nvim 迁徙（对齐 LazyVim）](improvements/snacks-migration.md)
 
 ### 后续
 
@@ -69,7 +69,7 @@
 
 - [Markdown buffer 内渲染](improvements/editor-experience.md#markdown-buffer-内渲染)
 - [Harpoon v2](improvements/editor-experience.md#harpoon-v2)
-- [`vim.ui.input()` 界面增强](improvements/editor-experience.md#vimuiinput-界面)
+- [`vim.ui.input()` 界面增强](improvements/editor-experience.md#vimuiinput-界面)（计划由 snacks.input 吸收，见迁徙文档）
 - [启动性能基准](improvements/quality.md#启动性能基准)
 - [CI 与 smoke test](improvements/quality.md#ci-与-smoke-test)
 

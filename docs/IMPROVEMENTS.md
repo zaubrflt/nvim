@@ -13,6 +13,10 @@ AstroNvim 或 NvChad 为目标。架构边界与明确不采用的方案见
 
 - [LazyVim / AstroNvim / NvChad 可借鉴项](improvements/distro-lessons.md)
 
+## 架构迁徙
+
+- [snacks.nvim 迁徙计划（对齐 LazyVim）](improvements/snacks-migration.md)
+
 ## 工作流
 
 - [DAP 启动体验](improvements/project-workflow.md#dap-启动体验)
