@@ -4,22 +4,24 @@
 
 ## 补全
 
-blink.cmp 使用 `default` preset，来源包括 LSP、路径、snippet 和当前 buffer。
-菜单默认不预选候选项。
+blink.cmp 使用 `super-tab` preset，来源包括 LSP、路径、snippet 和当前 buffer。
+菜单默认不预选候选项；`Tab`、`Enter` 和 `<C-y>` 在未选中候选时接受第一项。
 
 | 快捷键 | 模式 | 说明 |
 | --- | --- | --- |
 | `<C-space>` | insert | 显示补全菜单；菜单已显示时切换文档窗口 |
 | `<C-e>` | insert | 取消当前预览并隐藏补全菜单 |
-| `<C-y>` | insert | 选择并接受候选项 |
+| `<Tab>` | insert / select | 接受当前候选；snippet 中确认或向前跳转，无补全时缩进 |
+| `<CR>` | insert | 接受当前候选；无候选时换行 |
+| `<C-y>` | insert | 接受当前候选 |
 | `<Up>` / `<Down>` | insert | 上 / 下一个候选项 |
 | `<C-p>` / `<C-n>` | insert | 上 / 下一个候选项 |
 | `<C-b>` / `<C-f>` | insert | 向上 / 向下滚动补全文档 |
-| `<Tab>` / `<S-Tab>` | insert / select | 向前 / 向后跳转 snippet 占位符 |
+| `<S-Tab>` | insert / select | 向后跳转 snippet 占位符 |
 | `<C-k>` | insert | 显示或隐藏函数签名 |
 
-这些键来自 blink.cmp 1.x 的 preset；配置位置是
-`lua/plugins/completion.lua`。
+这些键基于 blink.cmp 1.x 的 preset，并为 `<CR>` 和 `<C-y>` 增加未选中时
+接受第一项的行为；配置位置是 `lua/plugins/completion.lua`。
 
 ## 注释
 

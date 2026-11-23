@@ -9,7 +9,12 @@ if not ok then
 end
 
 blink.setup({
-  keymap = { preset = 'default' },
+  keymap = {
+    preset = 'super-tab',
+    -- Accept the first item when no candidate is explicitly selected.
+    ['<CR>'] = { 'select_and_accept', 'fallback' },
+    ['<C-y>'] = { 'select_and_accept', 'fallback' },
+  },
 
   appearance = {
     nerd_font_variant = 'mono',
