@@ -48,9 +48,19 @@ local function auto_session_name()
   return cwd .. '@' .. branch
 end
 
--- Save on VimLeavePre, restore on VimEnter (only when Neovim was launched
--- without any file arguments - otherwise the user clearly wants to open
--- those specific files).
+-- Snapshot argv while init.lua is loading. By VimEnter, snacks explorer may
+-- already have replaced a directory argument such as `.`.
+local launch_args = vim.fn.argv(-1)
+
+-- Restore on VimEnter when launched with no arguments, or with a single
+-- directory (`nvim .`). File arguments still mean the user wants those files.
+local function should_restore_session()
+  if #launch_args == 0 then
+    return true
+  end
+  return #launch_args == 1 and vim.fn.isdirectory(launch_args[1]) == 1
+end
+
 local group = vim.api.nvim_create_augroup('user_resession', { clear = true })
 vim.api.nvim_create_autocmd('VimLeavePre', {
   group = group,
@@ -60,9 +70,17 @@ vim.api.nvim_create_autocmd('VimEnter', {
   group = group,
   nested = true,
   callback = function()
-    if vim.fn.argc() == 0 then
-      resession.load(auto_session_name(), { silence_errors = true })
+    if not should_restore_session() then
+      return
     end
+    if #launch_args == 1 then
+      vim.cmd.cd(launch_args[1])
+    end
+    -- snacks explorer can replace the directory buffer before VimEnter. Load
+    -- on the next tick so the restored windows replace that sidebar.
+    vim.schedule(function()
+      resession.load(auto_session_name(), { silence_errors = true })
+    end)
   end,
 })
 

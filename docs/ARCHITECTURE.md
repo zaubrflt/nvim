@@ -175,7 +175,7 @@ init.lua
 `resession.nvim` 使用 `cwd@branch` 作为自动会话名：
 
 - `VimLeavePre` 保存当前会话。
-- 只有无文件参数启动时，`VimEnter` 才自动恢复。
+- 无参数启动，或只传入一个目录（`nvim .`）时，`VimEnter` 自动恢复。传入文件参数时不恢复。
 - explorer、终端、DAP UI 等临时 buffer 不写入会话。
 
 ## 路径与工具约定
